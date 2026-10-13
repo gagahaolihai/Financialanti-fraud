@@ -1,0 +1,23 @@
+# ============================================
+# 反诈卫士 v3.0 — 可选增强依赖
+# 包含：多模态检测（截图OCR / 语音转写） + 提交材料生成
+# 环境: Python 3.11
+# 安装: pip install -r requirements-extra.txt
+#
+# 注意：easyocr / openai-whisper 依赖 torch，体积较大（数百 MB）。
+#       若仅需核心对话与语义检索功能，可不安装本文件。
+# ============================================
+
+# ---------- 多模态：截图 OCR ----------
+# 注意：easyocr 依赖 shapely，国内镜像可能缺少预编译包而导致编译失败。
+#       若安装报错，请先执行：pip install shapely -i https://pypi.org/simple/
+easyocr
+pillow
+
+# ---------- 多模态：语音转写 ----------
+pydub
+openai-whisper
+
+# ---------- 提交材料生成（Word / PPT）----------
+python-docx
+python-pptx

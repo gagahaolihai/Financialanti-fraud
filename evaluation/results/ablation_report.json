@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-10-10T09:17:29",
+  "intent": {
+    "available": true,
+    "semantic_available": true,
+    "total": 70,
+    "results": {
+      "rule": {
+        "correct": 47,
+        "accuracy": 0.6714
+      },
+      "semantic": {
+        "correct": 57,
+        "accuracy": 0.8143
+      },
+      "fusion": {
+        "correct": 54,
+        "accuracy": 0.7714
+      }
+    }
+  },
+  "fraud": {
+    "available": true,
+    "total": 64,
+    "results": {
+      "keyword": {
+        "correct": 50,
+        "accuracy": 0.7812
+      },
+      "semantic": {
+        "correct": 45,
+        "accuracy": 0.7031
+      },
+      "hybrid": {
+        "correct": 51,
+        "accuracy": 0.7969
+      }
+    }
+  }
+}

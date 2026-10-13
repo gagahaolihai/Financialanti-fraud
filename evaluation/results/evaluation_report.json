@@ -1,0 +1,2099 @@
+{
+  "timestamp": "2026-10-10T16:55:23",
+  "version": "3.0",
+  "intent_classification": {
+    "available": true,
+    "total": 70,
+    "correct": 55,
+    "accuracy": 0.7857,
+    "prod_correct": 60,
+    "prod_accuracy": 0.8571,
+    "per_class": {
+      "greetings": {
+        "accuracy": 0.8,
+        "total": 5,
+        "correct": 4
+      },
+      "help_requests": {
+        "accuracy": 0.6,
+        "total": 5,
+        "correct": 3
+      },
+      "report_intents": {
+        "accuracy": 0.8,
+        "total": 5,
+        "correct": 4
+      },
+      "knowledge_queries": {
+        "accuracy": 0.6,
+        "total": 5,
+        "correct": 3
+      },
+      "scenario_requests": {
+        "accuracy": 0.8,
+        "total": 5,
+        "correct": 4
+      },
+      "self_check": {
+        "accuracy": 0.2,
+        "total": 5,
+        "correct": 1
+      },
+      "fraud_inquiry": {
+        "accuracy": 0.8,
+        "total": 5,
+        "correct": 4
+      },
+      "legal_queries": {
+        "accuracy": 0.8,
+        "total": 5,
+        "correct": 4
+      },
+      "emergency": {
+        "accuracy": 1.0,
+        "total": 5,
+        "correct": 5
+      },
+      "describe_situation": {
+        "accuracy": 0.6,
+        "total": 5,
+        "correct": 3
+      },
+      "confusion": {
+        "accuracy": 1.0,
+        "total": 5,
+        "correct": 5
+      },
+      "fear_anxiety": {
+        "accuracy": 1.0,
+        "total": 5,
+        "correct": 5
+      },
+      "elderly_identity": {
+        "accuracy": 1.0,
+        "total": 5,
+        "correct": 5
+      },
+      "thanks": {
+        "accuracy": 1.0,
+        "total": 5,
+        "correct": 5
+      }
+    },
+    "details": [
+      {
+        "text": "你好啊",
+        "gold": "greetings",
+        "pred": "greetings",
+        "confidence": 0.772,
+        "correct": true,
+        "prod_pred": "greetings",
+        "prod_correct": true
+      },
+      {
+        "text": "在不在",
+        "gold": "greetings",
+        "pred": "confusion",
+        "confidence": 0.373,
+        "correct": false,
+        "prod_pred": "greetings",
+        "prod_correct": true
+      },
+      {
+        "text": "早上好",
+        "gold": "greetings",
+        "pred": "greetings",
+        "confidence": 0.643,
+        "correct": true,
+        "prod_pred": "greetings",
+        "prod_correct": true
+      },
+      {
+        "text": "嗨，我来了",
+        "gold": "greetings",
+        "pred": "greetings",
+        "confidence": 0.715,
+        "correct": true,
+        "prod_pred": "greetings",
+        "prod_correct": true
+      },
+      {
+        "text": "您好，我想咨询一下",
+        "gold": "greetings",
+        "pred": "greetings",
+        "confidence": 0.724,
+        "correct": true,
+        "prod_pred": "greetings",
+        "prod_correct": true
+      },
+      {
+        "text": "我需要帮忙",
+        "gold": "help_requests",
+        "pred": "help_requests",
+        "confidence": 0.716,
+        "correct": true,
+        "prod_pred": "help_requests",
+        "prod_correct": true
+      },
+      {
+        "text": "快帮帮我吧",
+        "gold": "help_requests",
+        "pred": "thanks",
+        "confidence": 0.649,
+        "correct": false,
+        "prod_pred": "help_requests",
+        "prod_correct": true
+      },
+      {
+        "text": "有件事想请你帮忙",
+        "gold": "help_requests",
+        "pred": "help_requests",
+        "confidence": 0.582,
+        "correct": true,
+        "prod_pred": "help_requests",
+        "prod_correct": true
+      },
+      {
+        "text": "我遇到麻烦了，求帮助",
+        "gold": "help_requests",
+        "pred": "help_requests",
+        "confidence": 0.768,
+        "correct": true,
+        "prod_pred": "help_requests",
+        "prod_correct": true
+      },
+      {
+        "text": "能不能帮我看看",
+        "gold": "help_requests",
+        "pred": "self_check",
+        "confidence": 0.456,
+        "correct": false,
+        "prod_pred": "self_check",
+        "prod_correct": false
+      },
+      {
+        "text": "我要举报这个号码",
+        "gold": "report_intents",
+        "pred": "provide_info",
+        "confidence": 0.629,
+        "correct": false,
+        "prod_pred": "report_intents",
+        "prod_correct": true
+      },
+      {
+        "text": "帮我举报一个骗子",
+        "gold": "report_intents",
+        "pred": "report_intents",
+        "confidence": 0.671,
+        "correct": true,
+        "prod_pred": "report_intents",
+        "prod_correct": true
+      },
+      {
+        "text": "这个链接我要投诉",
+        "gold": "report_intents",
+        "pred": "report_intents",
+        "confidence": 0.648,
+        "correct": true,
+        "prod_pred": "report_intents",
+        "prod_correct": true
+      },
+      {
+        "text": "我想举报一个诈骗网站",
+        "gold": "report_intents",
+        "pred": "report_intents",
+        "confidence": 0.755,
+        "correct": true,
+        "prod_pred": "report_intents",
+        "prod_correct": true
+      },
+      {
+        "text": "举报一个可疑电话",
+        "gold": "report_intents",
+        "pred": "report_intents",
+        "confidence": 0.618,
+        "correct": true,
+        "prod_pred": "report_intents",
+        "prod_correct": true
+      },
+      {
+        "text": "讲一下杀猪盘是什么",
+        "gold": "knowledge_queries",
+        "pred": "knowledge_queries",
+        "confidence": 0.474,
+        "correct": true,
+        "prod_pred": "knowledge_queries",
+        "prod_correct": true
+      },
+      {
+        "text": "给我说说贷款诈骗",
+        "gold": "knowledge_queries",
+        "pred": "report_intents",
+        "confidence": 0.563,
+        "correct": false,
+        "prod_pred": "knowledge_queries",
+        "prod_correct": true
+      },
+      {
+        "text": "我想了解一下反诈知识",
+        "gold": "knowledge_queries",
+        "pred": "knowledge_queries",
+        "confidence": 0.61,
+        "correct": true,
+        "prod_pred": "knowledge_queries",
+        "prod_correct": true
+      },
+      {
+        "text": "解释一下刷单骗局",
+        "gold": "knowledge_queries",
+        "pred": "knowledge_queries",
+        "confidence": 0.683,
+        "correct": true,
+        "prod_pred": "knowledge_queries",
+        "prod_correct": true
+      },
+      {
+        "text": "什么是冒充客服诈骗",
+        "gold": "knowledge_queries",
+        "pred": "report_intents",
+        "confidence": 0.615,
+        "correct": false,
+        "prod_pred": "knowledge_queries",
+        "prod_correct": true
+      },
+      {
+        "text": "我想玩防骗闯关",
+        "gold": "scenario_requests",
+        "pred": "scenario_requests",
+        "confidence": 0.581,
+        "correct": true,
+        "prod_pred": "scenario_requests",
+        "prod_correct": true
+      },
+      {
+        "text": "来个情景训练",
+        "gold": "scenario_requests",
+        "pred": "scenario_requests",
+        "confidence": 0.53,
+        "correct": true,
+        "prod_pred": "scenario_requests",
+        "prod_correct": true
+      },
+      {
+        "text": "我想练习一下识别骗局",
+        "gold": "scenario_requests",
+        "pred": "scenario_requests",
+        "confidence": 0.702,
+        "correct": true,
+        "prod_pred": "scenario_requests",
+        "prod_correct": true
+      },
+      {
+        "text": "有没有模拟诈骗的场景",
+        "gold": "scenario_requests",
+        "pred": "fraud_inquiry",
+        "confidence": 0.602,
+        "correct": false,
+        "prod_pred": "scenario_requests",
+        "prod_correct": true
+      },
+      {
+        "text": "开始情景模拟",
+        "gold": "scenario_requests",
+        "pred": "scenario_requests",
+        "confidence": 0.454,
+        "correct": true,
+        "prod_pred": "scenario_requests",
+        "prod_correct": true
+      },
+      {
+        "text": "你帮我看看这个是不是骗子",
+        "gold": "self_check",
+        "pred": "report_intents",
+        "confidence": 0.543,
+        "correct": false,
+        "prod_pred": "self_check",
+        "prod_correct": true
+      },
+      {
+        "text": "我遇到的事是不是诈骗",
+        "gold": "self_check",
+        "pred": "emergency",
+        "confidence": 0.636,
+        "correct": false,
+        "prod_pred": "self_check",
+        "prod_correct": true
+      },
+      {
+        "text": "这个网站靠不靠谱",
+        "gold": "self_check",
+        "pred": "report_intents",
+        "confidence": 0.434,
+        "correct": false,
+        "prod_pred": "self_check",
+        "prod_correct": true
+      },
+      {
+        "text": "我怀疑我被骗了",
+        "gold": "self_check",
+        "pred": "emergency",
+        "confidence": 0.559,
+        "correct": false,
+        "prod_pred": "help_requests",
+        "prod_correct": false
+      },
+      {
+        "text": "帮我判断一下这个情况",
+        "gold": "self_check",
+        "pred": "self_check",
+        "confidence": 0.495,
+        "correct": true,
+        "prod_pred": "self_check",
+        "prod_correct": true
+      },
+      {
+        "text": "网络贷款诈骗是怎么操作的",
+        "gold": "fraud_inquiry",
+        "pred": "fraud_inquiry",
+        "confidence": 0.499,
+        "correct": true,
+        "prod_pred": "loan_concern",
+        "prod_correct": false
+      },
+      {
+        "text": "快递引流是什么套路",
+        "gold": "fraud_inquiry",
+        "pred": "emergency",
+        "confidence": 0.379,
+        "correct": false,
+        "prod_pred": "emergency",
+        "prod_correct": false
+      },
+      {
+        "text": "虚拟币诈骗怎么回事",
+        "gold": "fraud_inquiry",
+        "pred": "fraud_inquiry",
+        "confidence": 0.563,
+        "correct": true,
+        "prod_pred": "crypto_concern",
+        "prod_correct": false
+      },
+      {
+        "text": "机票退改签骗局怎么骗人",
+        "gold": "fraud_inquiry",
+        "pred": "fraud_inquiry",
+        "confidence": 0.567,
+        "correct": true,
+        "prod_pred": "flight_concern",
+        "prod_correct": false
+      },
+      {
+        "text": "培训退费诈骗是什么",
+        "gold": "fraud_inquiry",
+        "pred": "fraud_inquiry",
+        "confidence": 0.523,
+        "correct": true,
+        "prod_pred": "fraud_inquiry",
+        "prod_correct": true
+      },
+      {
+        "text": "诈骗多少钱能立案",
+        "gold": "legal_queries",
+        "pred": "legal_queries",
+        "confidence": 0.563,
+        "correct": true,
+        "prod_pred": "legal_queries",
+        "prod_correct": true
+      },
+      {
+        "text": "帮信罪判几年",
+        "gold": "legal_queries",
+        "pred": "legal_queries",
+        "confidence": 0.528,
+        "correct": true,
+        "prod_pred": "legal_queries",
+        "prod_correct": true
+      },
+      {
+        "text": "反电信网络诈骗法讲了啥",
+        "gold": "legal_queries",
+        "pred": "knowledge_queries",
+        "confidence": 0.533,
+        "correct": false,
+        "prod_pred": "knowledge_queries",
+        "prod_correct": false
+      },
+      {
+        "text": "出借银行卡犯法吗",
+        "gold": "legal_queries",
+        "pred": "legal_queries",
+        "confidence": 0.469,
+        "correct": true,
+        "prod_pred": "legal_queries",
+        "prod_correct": true
+      },
+      {
+        "text": "诈骗罪量刑标准",
+        "gold": "legal_queries",
+        "pred": "legal_queries",
+        "confidence": 0.693,
+        "correct": true,
+        "prod_pred": "legal_queries",
+        "prod_correct": true
+      },
+      {
+        "text": "我已经把钱转过去了",
+        "gold": "emergency",
+        "pred": "emergency",
+        "confidence": 0.763,
+        "correct": true,
+        "prod_pred": "emergency",
+        "prod_correct": true
+      },
+      {
+        "text": "我刚给对方转了五万",
+        "gold": "emergency",
+        "pred": "emergency",
+        "confidence": 0.527,
+        "correct": true,
+        "prod_pred": "emergency",
+        "prod_correct": true
+      },
+      {
+        "text": "快，我正在给骗子转钱",
+        "gold": "emergency",
+        "pred": "emergency",
+        "confidence": 0.719,
+        "correct": true,
+        "prod_pred": "emergency",
+        "prod_correct": true
+      },
+      {
+        "text": "我的卡被盗刷了",
+        "gold": "emergency",
+        "pred": "emergency",
+        "confidence": 0.496,
+        "correct": true,
+        "prod_pred": "emergency",
+        "prod_correct": true
+      },
+      {
+        "text": "我泄露了银行卡密码",
+        "gold": "emergency",
+        "pred": "emergency",
+        "confidence": 0.608,
+        "correct": true,
+        "prod_pred": "emergency",
+        "prod_correct": true
+      },
+      {
+        "text": "有个陌生人在微信上加我",
+        "gold": "describe_situation",
+        "pred": "describe_situation",
+        "confidence": 0.512,
+        "correct": true,
+        "prod_pred": "describe_situation",
+        "prod_correct": true
+      },
+      {
+        "text": "我接到一个自称是警察的电话",
+        "gold": "describe_situation",
+        "pred": "report_intents",
+        "confidence": 0.52,
+        "correct": false,
+        "prod_pred": "report_intents",
+        "prod_correct": false
+      },
+      {
+        "text": "有人在群里发了个兼职链接",
+        "gold": "describe_situation",
+        "pred": "describe_situation",
+        "confidence": 0.484,
+        "correct": true,
+        "prod_pred": "describe_situation",
+        "prod_correct": true
+      },
+      {
+        "text": "对方让我下载一个软件",
+        "gold": "describe_situation",
+        "pred": "describe_situation",
+        "confidence": 0.466,
+        "correct": true,
+        "prod_pred": "describe_situation",
+        "prod_correct": true
+      },
+      {
+        "text": "有个人说可以带我赚钱",
+        "gold": "describe_situation",
+        "pred": "emergency",
+        "confidence": 0.605,
+        "correct": false,
+        "prod_pred": "emergency",
+        "prod_correct": false
+      },
+      {
+        "text": "你说的我不太明白",
+        "gold": "confusion",
+        "pred": "confusion",
+        "confidence": 0.665,
+        "correct": true,
+        "prod_pred": "confusion",
+        "prod_correct": true
+      },
+      {
+        "text": "能说得简单点吗",
+        "gold": "confusion",
+        "pred": "confusion",
+        "confidence": 0.595,
+        "correct": true,
+        "prod_pred": "confusion",
+        "prod_correct": true
+      },
+      {
+        "text": "我没听懂",
+        "gold": "confusion",
+        "pred": "confusion",
+        "confidence": 0.599,
+        "correct": true,
+        "prod_pred": "confusion",
+        "prod_correct": true
+      },
+      {
+        "text": "这是什么意思啊",
+        "gold": "confusion",
+        "pred": "confusion",
+        "confidence": 0.508,
+        "correct": true,
+        "prod_pred": "knowledge_queries",
+        "prod_correct": false
+      },
+      {
+        "text": "太绕了，说人话",
+        "gold": "confusion",
+        "pred": "confusion",
+        "confidence": 0.578,
+        "correct": true,
+        "prod_pred": "confusion",
+        "prod_correct": true
+      },
+      {
+        "text": "我好害怕",
+        "gold": "fear_anxiety",
+        "pred": "fear_anxiety",
+        "confidence": 0.722,
+        "correct": true,
+        "prod_pred": "fear_anxiety",
+        "prod_correct": true
+      },
+      {
+        "text": "我心里特别慌",
+        "gold": "fear_anxiety",
+        "pred": "fear_anxiety",
+        "confidence": 0.709,
+        "correct": true,
+        "prod_pred": "fear_anxiety",
+        "prod_correct": true
+      },
+      {
+        "text": "担心我的钱没了",
+        "gold": "fear_anxiety",
+        "pred": "fear_anxiety",
+        "confidence": 0.629,
+        "correct": true,
+        "prod_pred": "fear_anxiety",
+        "prod_correct": true
+      },
+      {
+        "text": "我紧张得不行",
+        "gold": "fear_anxiety",
+        "pred": "fear_anxiety",
+        "confidence": 0.658,
+        "correct": true,
+        "prod_pred": "fear_anxiety",
+        "prod_correct": true
+      },
+      {
+        "text": "吓死我了怎么办",
+        "gold": "fear_anxiety",
+        "pred": "fear_anxiety",
+        "confidence": 0.703,
+        "correct": true,
+        "prod_pred": "fear_anxiety",
+        "prod_correct": true
+      },
+      {
+        "text": "我今年七十了",
+        "gold": "elderly_identity",
+        "pred": "elderly_identity",
+        "confidence": 0.764,
+        "correct": true,
+        "prod_pred": "elderly_identity",
+        "prod_correct": true
+      },
+      {
+        "text": "我是个老人，不太会弄",
+        "gold": "elderly_identity",
+        "pred": "elderly_identity",
+        "confidence": 0.783,
+        "correct": true,
+        "prod_pred": "elderly_identity",
+        "prod_correct": true
+      },
+      {
+        "text": "我岁数大了",
+        "gold": "elderly_identity",
+        "pred": "elderly_identity",
+        "confidence": 0.806,
+        "correct": true,
+        "prod_pred": "elderly_identity",
+        "prod_correct": true
+      },
+      {
+        "text": "我退休在家",
+        "gold": "elderly_identity",
+        "pred": "elderly_identity",
+        "confidence": 0.589,
+        "correct": true,
+        "prod_pred": "elderly_identity",
+        "prod_correct": true
+      },
+      {
+        "text": "老年人容易被骗吗",
+        "gold": "elderly_identity",
+        "pred": "elderly_identity",
+        "confidence": 0.53,
+        "correct": true,
+        "prod_pred": "elderly_identity",
+        "prod_correct": true
+      },
+      {
+        "text": "谢谢啦",
+        "gold": "thanks",
+        "pred": "thanks",
+        "confidence": 0.862,
+        "correct": true,
+        "prod_pred": "thanks",
+        "prod_correct": true
+      },
+      {
+        "text": "多谢你",
+        "gold": "thanks",
+        "pred": "thanks",
+        "confidence": 0.921,
+        "correct": true,
+        "prod_pred": "thanks",
+        "prod_correct": true
+      },
+      {
+        "text": "太感谢你了",
+        "gold": "thanks",
+        "pred": "thanks",
+        "confidence": 0.91,
+        "correct": true,
+        "prod_pred": "thanks",
+        "prod_correct": true
+      },
+      {
+        "text": "感谢感谢",
+        "gold": "thanks",
+        "pred": "thanks",
+        "confidence": 0.911,
+        "correct": true,
+        "prod_pred": "thanks",
+        "prod_correct": true
+      },
+      {
+        "text": "你真好，谢谢",
+        "gold": "thanks",
+        "pred": "thanks",
+        "confidence": 0.774,
+        "correct": true,
+        "prod_pred": "thanks",
+        "prod_correct": true
+      }
+    ]
+  },
+  "fraud_type_matching": {
+    "available": true,
+    "total": 64,
+    "top1_hits": 41,
+    "top3_hits": 57,
+    "top1_accuracy": 0.6406,
+    "top3_accuracy": 0.8906,
+    "prod_top1_hits": 51,
+    "prod_top3_hits": 59,
+    "prod_top1_accuracy": 0.7969,
+    "prod_top3_accuracy": 0.9219,
+    "details": [
+      {
+        "text": "有人让我做任务刷好评，说一单返几块钱",
+        "gold": "刷单返利",
+        "pred_top3": [
+          "冒充熟人",
+          "刷单返利",
+          "冒充客服退款"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "刷单返利",
+          "冒充熟人",
+          "冒充客服退款"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "网上兼职说动动手指日赚三百",
+        "gold": "刷单返利",
+        "pred_top3": [
+          "刷单返利",
+          "FaceTime诈骗",
+          "冒充熟人"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "刷单返利",
+          "FaceTime诈骗",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "群里发的点赞关注返利是不是骗人的",
+        "gold": "刷单返利",
+        "pred_top3": [
+          "刷单返利",
+          "虚假投资",
+          "冒充熟人"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "刷单返利",
+          "虚假投资",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "说先垫付再连本带利返还是真的吗",
+        "gold": "刷单返利",
+        "pred_top3": [
+          "机票退改签诈骗",
+          "刷单返利",
+          "冒充熟人"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假投资",
+          "机票退改签诈骗",
+          "刷单返利"
+        ],
+        "prod_hit_top1": false,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有人说低价卖我游戏皮肤",
+        "gold": "游戏交易",
+        "pred_top3": [
+          "游戏交易",
+          "快递引流诈骗",
+          "冒充熟人"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "游戏交易",
+          "快递引流诈骗",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "买游戏账号对方让我先交保证金解冻",
+        "gold": "游戏交易",
+        "pred_top3": [
+          "游戏交易",
+          "冒充熟人",
+          "刷单返利"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "游戏交易",
+          "冒充熟人",
+          "刷单返利"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "交易游戏币被骗了",
+        "gold": "游戏交易",
+        "pred_top3": [
+          "游戏交易",
+          "虚拟货币诈骗",
+          "虚假投资"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "游戏交易",
+          "虚拟货币诈骗",
+          "虚假投资"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "代练说便宜帮我上分",
+        "gold": "游戏交易",
+        "pred_top3": [
+          "冒充熟人",
+          "游戏交易",
+          "刷单返利"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "游戏交易",
+          "冒充熟人",
+          "刷单返利"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "接到电话说我涉嫌洗钱，要我把钱转到安全账户",
+        "gold": "冒充公检法",
+        "pred_top3": [
+          "冒充熟人",
+          "虚假征信",
+          "冒充公检法"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "冒充公检法",
+          "冒充熟人",
+          "虚假征信"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "对方自称警察说我有通缉令",
+        "gold": "冒充公检法",
+        "pred_top3": [
+          "冒充公检法",
+          "冒充熟人",
+          "机票退改签诈骗"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "冒充公检法",
+          "冒充熟人",
+          "机票退改签诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "检察院打电话说我涉案，让我配合调查",
+        "gold": "冒充公检法",
+        "pred_top3": [
+          "冒充公检法",
+          "冒充熟人",
+          "虚假征信"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "冒充公检法",
+          "冒充熟人",
+          "虚假征信"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有人说要冻结我账户，让我转钱核查",
+        "gold": "冒充公检法",
+        "pred_top3": [
+          "冒充熟人",
+          "虚假征信",
+          "虚假网络贷款"
+        ],
+        "hit_top1": false,
+        "hit_top3": false,
+        "prod_top3": [],
+        "prod_hit_top1": false,
+        "prod_hit_top3": false
+      },
+      {
+        "text": "有人拉我进群推荐股票，说有内幕",
+        "gold": "虚假投资",
+        "pred_top3": [
+          "虚假投资",
+          "冒充熟人",
+          "刷单返利"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假投资",
+          "冒充熟人",
+          "刷单返利"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "网上的理财导师带我操作稳赚不赔",
+        "gold": "虚假投资",
+        "pred_top3": [
+          "冒充熟人",
+          "培训退费诈骗",
+          "虚假投资"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假投资",
+          "冒充熟人",
+          "培训退费诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "投资平台说日收益百分之五",
+        "gold": "虚假投资",
+        "pred_top3": [
+          "虚假投资",
+          "刷单返利",
+          "培训退费诈骗"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假投资",
+          "刷单返利",
+          "培训退费诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有人推荐我买原始股",
+        "gold": "虚假投资",
+        "pred_top3": [
+          "虚假投资",
+          "冒充熟人",
+          "刷单返利"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假投资",
+          "冒充熟人",
+          "刷单返利"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有人说可以给学生办无抵押贷款",
+        "gold": "校园贷",
+        "pred_top3": [
+          "校园贷",
+          "虚假网络贷款",
+          "培训退费诈骗"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "校园贷",
+          "虚假网络贷款",
+          "培训退费诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "我同学借了校园贷被逼债",
+        "gold": "校园贷",
+        "pred_top3": [
+          "校园贷",
+          "虚假网络贷款",
+          "虚假征信"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "校园贷",
+          "虚假网络贷款",
+          "虚假征信"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有个平台说培训可以贷款交学费",
+        "gold": "校园贷",
+        "pred_top3": [
+          "校园贷",
+          "培训退费诈骗",
+          "虚假网络贷款"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "培训退费诈骗",
+          "校园贷",
+          "虚假网络贷款"
+        ],
+        "prod_hit_top1": false,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "网上说学生可以低息借款秒到账",
+        "gold": "校园贷",
+        "pred_top3": [
+          "校园贷",
+          "虚假网络贷款",
+          "培训退费诈骗"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假网络贷款",
+          "校园贷",
+          "培训退费诈骗"
+        ],
+        "prod_hit_top1": false,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "客服打电话说我的快递丢了要理赔",
+        "gold": "冒充客服退款",
+        "pred_top3": [
+          "冒充客服退款",
+          "机票退改签诈骗",
+          "冒充熟人"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "冒充客服退款",
+          "机票退改签诈骗",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有人说我买的商品有质量问题要退款",
+        "gold": "冒充客服退款",
+        "pred_top3": [
+          "冒充客服退款",
+          "冒充熟人",
+          "刷单返利"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "冒充客服退款",
+          "冒充熟人",
+          "刷单返利"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "自称淘宝客服让我加微信办退款",
+        "gold": "冒充客服退款",
+        "pred_top3": [
+          "冒充熟人",
+          "冒充客服退款",
+          "FaceTime诈骗"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "冒充客服退款",
+          "冒充熟人",
+          "FaceTime诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "说帮我取消代理商业务否则扣费",
+        "gold": "冒充客服退款",
+        "pred_top3": [
+          "冒充客服退款",
+          "冒充熟人",
+          "机票退改签诈骗"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "冒充客服退款",
+          "冒充熟人",
+          "机票退改签诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有人说我的征信有问题，交钱能修复",
+        "gold": "虚假征信",
+        "pred_top3": [
+          "冒充熟人",
+          "冒充客服退款",
+          "虚假征信"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假征信",
+          "冒充熟人",
+          "冒充客服退款"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "让我把贷款账户注销否则影响征信",
+        "gold": "虚假征信",
+        "pred_top3": [
+          "冒充熟人",
+          "虚假征信",
+          "校园贷"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假征信",
+          "冒充熟人",
+          "校园贷"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "说帮我消除不良信用记录",
+        "gold": "虚假征信",
+        "pred_top3": [
+          "虚假征信",
+          "冒充熟人",
+          "快递引流诈骗"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假征信",
+          "冒充熟人",
+          "快递引流诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有人让我在借呗上借钱转给他们注销账户",
+        "gold": "虚假征信",
+        "pred_top3": [
+          "冒充熟人",
+          "虚假征信",
+          "虚假网络贷款"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假征信",
+          "冒充熟人",
+          "虚假网络贷款"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有人加我说是我老同学要借钱",
+        "gold": "冒充熟人",
+        "pred_top3": [
+          "冒充熟人",
+          "校园贷",
+          "虚假网络贷款"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "冒充熟人",
+          "校园贷",
+          "虚假网络贷款"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "微信上有人冒充我领导让我转账",
+        "gold": "冒充熟人",
+        "pred_top3": [
+          "冒充熟人",
+          "FaceTime诈骗",
+          "冒充客服退款"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [],
+        "prod_hit_top1": false,
+        "prod_hit_top3": false
+      },
+      {
+        "text": "我爸收到短信说我出事了要打钱",
+        "gold": "冒充熟人",
+        "pred_top3": [
+          "冒充熟人",
+          "虚假征信",
+          "机票退改签诈骗"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [],
+        "prod_hit_top1": false,
+        "prod_hit_top3": false
+      },
+      {
+        "text": "有人盗了我朋友账号向我借钱",
+        "gold": "冒充熟人",
+        "pred_top3": [
+          "冒充熟人",
+          "虚假网络贷款",
+          "虚假征信"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "游戏交易",
+          "冒充熟人",
+          "虚假网络贷款"
+        ],
+        "prod_hit_top1": false,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "网上认识的对象带我投资",
+        "gold": "交友诈骗",
+        "pred_top3": [
+          "虚假投资",
+          "冒充熟人",
+          "刷单返利"
+        ],
+        "hit_top1": false,
+        "hit_top3": false,
+        "prod_top3": [
+          "虚假投资",
+          "冒充熟人",
+          "刷单返利"
+        ],
+        "prod_hit_top1": false,
+        "prod_hit_top3": false
+      },
+      {
+        "text": "有人加我聊天很快就要我转账",
+        "gold": "交友诈骗",
+        "pred_top3": [
+          "冒充熟人",
+          "机票退改签诈骗",
+          "快递引流诈骗"
+        ],
+        "hit_top1": false,
+        "hit_top3": false,
+        "prod_top3": [],
+        "prod_hit_top1": false,
+        "prod_hit_top3": false
+      },
+      {
+        "text": "网恋对象说家里出事要借钱",
+        "gold": "交友诈骗",
+        "pred_top3": [
+          "虚假网络贷款",
+          "冒充熟人",
+          "虚假投资"
+        ],
+        "hit_top1": false,
+        "hit_top3": false,
+        "prod_top3": [
+          "交友诈骗",
+          "虚假网络贷款",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有人诱导我视频裸聊",
+        "gold": "交友诈骗",
+        "pred_top3": [
+          "交友诈骗",
+          "AI换脸诈骗",
+          "FaceTime诈骗"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "交友诈骗",
+          "AI换脸诈骗",
+          "FaceTime诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有人用AI换脸冒充我亲戚视频借钱",
+        "gold": "AI换脸诈骗",
+        "pred_top3": [
+          "AI换脸诈骗",
+          "FaceTime诈骗",
+          "冒充熟人"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "AI换脸诈骗",
+          "FaceTime诈骗",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "视频里是我儿子的脸但要我打钱",
+        "gold": "AI换脸诈骗",
+        "pred_top3": [
+          "FaceTime诈骗",
+          "AI换脸诈骗",
+          "冒充熟人"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "AI换脸诈骗",
+          "FaceTime诈骗",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "骗子用AI合成的声音冒充家人",
+        "gold": "AI换脸诈骗",
+        "pred_top3": [
+          "AI换脸诈骗",
+          "FaceTime诈骗",
+          "虚假征信"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "AI换脸诈骗",
+          "FaceTime诈骗",
+          "虚假征信"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有人用深度伪造视频冒充领导",
+        "gold": "AI换脸诈骗",
+        "pred_top3": [
+          "AI换脸诈骗",
+          "冒充熟人",
+          "虚假征信"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "AI换脸诈骗",
+          "冒充熟人",
+          "虚假征信"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "接到苹果FaceTime视频电话说百万保障要扣费",
+        "gold": "FaceTime诈骗",
+        "pred_top3": [
+          "FaceTime诈骗",
+          "AI换脸诈骗",
+          "培训退费诈骗"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "FaceTime诈骗",
+          "AI换脸诈骗",
+          "培训退费诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "自称微信客服通过FaceTime联系我",
+        "gold": "FaceTime诈骗",
+        "pred_top3": [
+          "FaceTime诈骗",
+          "AI换脸诈骗",
+          "冒充熟人"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "FaceTime诈骗",
+          "AI换脸诈骗",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "苹果客服说我的iMessage要关停",
+        "gold": "FaceTime诈骗",
+        "pred_top3": [
+          "FaceTime诈骗",
+          "AI换脸诈骗",
+          "培训退费诈骗"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "FaceTime诈骗",
+          "AI换脸诈骗",
+          "培训退费诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "FaceTime来电说帮我关闭自动扣费",
+        "gold": "FaceTime诈骗",
+        "pred_top3": [
+          "FaceTime诈骗",
+          "AI换脸诈骗",
+          "机票退改签诈骗"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "FaceTime诈骗",
+          "AI换脸诈骗",
+          "机票退改签诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "收到陌生快递里面有张刮奖卡让我扫码",
+        "gold": "快递引流诈骗",
+        "pred_top3": [
+          "快递引流诈骗",
+          "冒充客服退款",
+          "冒充熟人"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "快递引流诈骗",
+          "冒充客服退款",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "快递里有个二维码说扫码领奖",
+        "gold": "快递引流诈骗",
+        "pred_top3": [
+          "快递引流诈骗",
+          "冒充客服退款",
+          "刷单返利"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "快递引流诈骗",
+          "冒充客服退款",
+          "刷单返利"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "收到没买过的包裹让加微信",
+        "gold": "快递引流诈骗",
+        "pred_top3": [
+          "冒充熟人",
+          "FaceTime诈骗",
+          "冒充客服退款"
+        ],
+        "hit_top1": false,
+        "hit_top3": false,
+        "prod_top3": [
+          "快递引流诈骗",
+          "冒充熟人",
+          "FaceTime诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "包裹里有张卡片说中奖了要扫码领取",
+        "gold": "快递引流诈骗",
+        "pred_top3": [
+          "快递引流诈骗",
+          "冒充客服退款",
+          "机票退改签诈骗"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "快递引流诈骗",
+          "冒充客服退款",
+          "机票退改签诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有人打电话说我航班取消要给我退票",
+        "gold": "机票退改签诈骗",
+        "pred_top3": [
+          "机票退改签诈骗",
+          "冒充客服退款",
+          "冒充熟人"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "机票退改签诈骗",
+          "冒充客服退款",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "短信说我的机票要改签让联系客服",
+        "gold": "机票退改签诈骗",
+        "pred_top3": [
+          "机票退改签诈骗",
+          "冒充客服退款",
+          "虚假征信"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "机票退改签诈骗",
+          "冒充客服退款",
+          "虚假征信"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "自称航空公司说要给我赔偿延误险",
+        "gold": "机票退改签诈骗",
+        "pred_top3": [
+          "机票退改签诈骗",
+          "冒充客服退款",
+          "冒充熟人"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "机票退改签诈骗",
+          "冒充客服退款",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "说航班取消让我点链接办退改签",
+        "gold": "机票退改签诈骗",
+        "pred_top3": [
+          "机票退改签诈骗",
+          "冒充客服退款",
+          "冒充熟人"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "机票退改签诈骗",
+          "冒充客服退款",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "网上贷款说低息秒到账但要先交手续费",
+        "gold": "虚假网络贷款",
+        "pred_top3": [
+          "虚假网络贷款",
+          "校园贷",
+          "虚假征信"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假网络贷款",
+          "校园贷",
+          "虚假征信"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有个平台说无抵押放款快",
+        "gold": "虚假网络贷款",
+        "pred_top3": [
+          "校园贷",
+          "虚假网络贷款",
+          "虚假投资"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "校园贷",
+          "虚假网络贷款",
+          "虚假投资"
+        ],
+        "prod_hit_top1": false,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "贷款让我先交保证金解冻",
+        "gold": "虚假网络贷款",
+        "pred_top3": [
+          "校园贷",
+          "虚假网络贷款",
+          "冒充熟人"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "游戏交易",
+          "校园贷",
+          "虚假网络贷款"
+        ],
+        "prod_hit_top1": false,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "急用钱看到网贷广告说审核快",
+        "gold": "虚假网络贷款",
+        "pred_top3": [
+          "虚假投资",
+          "刷单返利",
+          "虚假征信"
+        ],
+        "hit_top1": false,
+        "hit_top3": false,
+        "prod_top3": [
+          "虚假网络贷款",
+          "虚假投资",
+          "刷单返利"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有人推荐我买USDT挖矿",
+        "gold": "虚拟货币诈骗",
+        "pred_top3": [
+          "冒充熟人",
+          "虚拟货币诈骗",
+          "刷单返利"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚拟货币诈骗",
+          "冒充熟人",
+          "刷单返利"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "说炒币稳赚，让我下载交易平台",
+        "gold": "虚拟货币诈骗",
+        "pred_top3": [
+          "游戏交易",
+          "刷单返利",
+          "快递引流诈骗"
+        ],
+        "hit_top1": false,
+        "hit_top3": false,
+        "prod_top3": [
+          "虚拟货币诈骗",
+          "游戏交易",
+          "刷单返利"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "群里老师带单买虚拟货币",
+        "gold": "虚拟货币诈骗",
+        "pred_top3": [
+          "虚拟货币诈骗",
+          "冒充熟人",
+          "培训退费诈骗"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假投资",
+          "虚拟货币诈骗",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": false,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "说投资元宇宙虚拟币能翻倍",
+        "gold": "虚拟货币诈骗",
+        "pred_top3": [
+          "虚拟货币诈骗",
+          "虚假投资",
+          "刷单返利"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假投资",
+          "虚拟货币诈骗",
+          "刷单返利"
+        ],
+        "prod_hit_top1": false,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有人打电话说我报的网课可以退费",
+        "gold": "培训退费诈骗",
+        "pred_top3": [
+          "冒充熟人",
+          "培训退费诈骗",
+          "虚假网络贷款"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "培训退费诈骗",
+          "冒充熟人",
+          "虚假网络贷款"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "说培训机构倒闭要给我退学费",
+        "gold": "培训退费诈骗",
+        "pred_top3": [
+          "培训退费诈骗",
+          "校园贷",
+          "虚假网络贷款"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "培训退费诈骗",
+          "校园贷",
+          "虚假网络贷款"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "加我微信说帮我办理课程退款",
+        "gold": "培训退费诈骗",
+        "pred_top3": [
+          "冒充熟人",
+          "培训退费诈骗",
+          "FaceTime诈骗"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "培训退费诈骗",
+          "冒充熟人",
+          "FaceTime诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "说考证费用可以退还让我操作",
+        "gold": "培训退费诈骗",
+        "pred_top3": [
+          "冒充熟人",
+          "机票退改签诈骗",
+          "培训退费诈骗"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "培训退费诈骗",
+          "冒充熟人",
+          "机票退改签诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      }
+    ]
+  },
+  "retrieval": {
+    "semantic": {
+      "top1_hits": 46,
+      "total": 64,
+      "top1_accuracy": 0.7188
+    },
+    "keyword": {
+      "top1_hits": 50,
+      "total": 64,
+      "top1_accuracy": 0.7812
+    },
+    "hybrid": {
+      "top1_hits": 50,
+      "total": 64,
+      "top1_accuracy": 0.7812
+    },
+    "available": true
+  },
+  "risk_analysis": {
+    "available": true,
+    "total": 40,
+    "tp": 19,
+    "fp": 0,
+    "tn": 20,
+    "fn": 1,
+    "precision": 1.0,
+    "recall": 0.95,
+    "f1": 0.9744,
+    "accuracy": 0.975,
+    "details": [
+      {
+        "text": "对方让我把钱转到安全账户",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "我把验证码告诉别人了",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "有人让我屏幕共享指导我操作",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "我正要给陌生账户转账",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "客服让我下载一个APP办理退款",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "对方说我涉嫌洗钱要资金核查",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "群里说刷单日赚几百让我先垫付",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "有人让我拍身份证正反面发过去",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "导师带我投资说稳赚不赔",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "我把银行卡密码告诉对方了",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "对方让我扫码下载软件",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "我点了短信里的链接",
+        "gold": true,
+        "pred": false
+      },
+      {
+        "text": "有人说帮我注销校园贷记录",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "网恋对象让我转钱给她",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "对方让我开屏幕共享教我用手机",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "我接到通缉令说我涉案",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "客服说要给我双倍退款让我点链接",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "我向陌生账户汇了一笔钱",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "对方让我提供短信验证码",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "自称银行客服让我转到指定账户",
+        "gold": true,
+        "pred": true
+      },
+      {
+        "text": "你好",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "什么是刷单诈骗",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "我想了解一下反诈知识",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "情景模拟怎么玩",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "谢谢你的帮助",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "诈骗罪判几年",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "我要举报一个电话",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "帮我看看这个链接",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "怎么防范电信诈骗",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "我今年六十岁了",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "我没听懂",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "讲一下冒充公检法",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "我想学习防骗技巧",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "有哪些常见的诈骗类型",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "96110是什么电话",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "反诈中心APP怎么用",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "能给我讲讲杀猪盘吗",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "我想做防骗测试",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "你好，在吗",
+        "gold": false,
+        "pred": false
+      },
+      {
+        "text": "给我一些防骗建议",
+        "gold": false,
+        "pred": false
+      }
+    ]
+  },
+  "elapsed_seconds": 76.34
+}

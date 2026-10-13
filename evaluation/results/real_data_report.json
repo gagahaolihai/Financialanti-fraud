@@ -1,0 +1,1654 @@
+{
+  "timestamp": "2026-10-10T16:55:04",
+  "dataset": {
+    "name": "真实使用数据评测集",
+    "description": "从 data/antifraud.db 的 conversations 表提取真实用户输入（role=user），去重后人工标注，用于在真实分布下评测意图分类 / 诈骗类型匹配 / 风险研判。",
+    "source": "data/antifraud.db -> conversations (role='user')",
+    "extracted_at": "2026-10-10",
+    "raw_messages": 174,
+    "unique_messages": 61,
+    "excluded": [
+      "test bank scam —— 明显的测试残留（英文/非真实用户）",
+      "有一个自称农业银行的人…（带 '🤖 反诈助手' 后缀）—— 数据污染，清洗后与另一条重复"
+    ],
+    "labeling": "由 AI 助手人工判读标注，intents 为可接受标签集合（存在合理歧义时给出多个），has_risk 采用与 RiskAnalyzer 一致的口径（应判定为 high/critical），fraud_types 为空数组表示该样本不参与类型命中统计。",
+    "taxonomy_revision": {
+      "date": "2026-10-10",
+      "reason": "首轮评测发现真实数据中存在大量『只提供个人信息、不带诉求』的输入（如『我的手机号是138****5678』），而原 14 类意图中没有对应类别，标注时被迫归入 describe_situation，导致该组准确率仅 8%。为此在意图体系中新增 provide_info 类，并将此类样本标签同步修正为 provide_info。",
+      "affected_samples": 17,
+      "note": "属评测口径修正（taxonomy 补类），非模型本身提升。对比首轮结果时需注意。"
+    },
+    "caveat": "标注为 AI 辅助判读，非多人独立标注，存在主观性；建议人工复核后使用。"
+  },
+  "total": 59,
+  "intent": {
+    "total": 59,
+    "correct": 37,
+    "accuracy": 0.6271,
+    "prod_correct": 40,
+    "prod_accuracy": 0.678,
+    "details": [
+      {
+        "text": "你好",
+        "gold": [
+          "greetings"
+        ],
+        "pred": "greetings",
+        "confidence": 0.756,
+        "correct": true,
+        "prod_pred": "greetings",
+        "prod_confidence": 0.756,
+        "prod_correct": true
+      },
+      {
+        "text": "有一个自称农业银行的人，叫我给指定账户打款，然后给我连本带利返回，这是诈骗吗",
+        "gold": [
+          "describe_situation",
+          "fraud_inquiry"
+        ],
+        "pred": "emergency",
+        "confidence": 0.502,
+        "correct": false,
+        "prod_pred": "self_check",
+        "prod_confidence": 0.129,
+        "prod_correct": false
+      },
+      {
+        "text": "帮助",
+        "gold": [
+          "help_requests"
+        ],
+        "pred": "help_requests",
+        "confidence": 0.519,
+        "correct": true,
+        "prod_pred": "help_requests",
+        "prod_confidence": 0.112,
+        "prod_correct": true
+      },
+      {
+        "text": "我的手机号是138****5678",
+        "gold": [
+          "provide_info"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.666,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.666,
+        "prod_correct": true
+      },
+      {
+        "text": "诈骗罪的量刑标准是什么？被骗的钱能追回来吗？",
+        "gold": [
+          "legal_queries"
+        ],
+        "pred": "legal_queries",
+        "confidence": 0.597,
+        "correct": true,
+        "prod_pred": "legal_queries",
+        "prod_confidence": 0.212,
+        "prod_correct": true
+      },
+      {
+        "text": "常见的电信诈骗类型有哪些？",
+        "gold": [
+          "knowledge_queries",
+          "fraud_inquiry"
+        ],
+        "pred": "knowledge_queries",
+        "confidence": 0.471,
+        "correct": true,
+        "prod_pred": "knowledge_queries",
+        "prod_confidence": 0.471,
+        "prod_correct": true
+      },
+      {
+        "text": "告诉我刷单返利诈骗的详解",
+        "gold": [
+          "knowledge_queries",
+          "fraud_inquiry"
+        ],
+        "pred": "knowledge_queries",
+        "confidence": 0.682,
+        "correct": true,
+        "prod_pred": "knowledge_queries",
+        "prod_confidence": 0.098,
+        "prod_correct": true
+      },
+      {
+        "text": "有个人加我微信说刷单做任务返利，一单返30块，靠谱吗？",
+        "gold": [
+          "describe_situation"
+        ],
+        "pred": "describe_situation",
+        "confidence": 0.494,
+        "correct": true,
+        "prod_pred": "describe_situation",
+        "prod_confidence": 0.5,
+        "prod_correct": true
+      },
+      {
+        "text": "有一个自称农业银行的人叫我给指定账户打款连本带利返回这是诈骗吗",
+        "gold": [
+          "describe_situation",
+          "fraud_inquiry"
+        ],
+        "pred": "emergency",
+        "confidence": 0.506,
+        "correct": false,
+        "prod_pred": "self_check",
+        "prod_confidence": 0.129,
+        "prod_correct": false
+      },
+      {
+        "text": "我投了2000到一个投资平台赚了500，现在让我再加5万，我是不某某某了？",
+        "gold": [
+          "describe_situation"
+        ],
+        "pred": "emergency",
+        "confidence": 0.515,
+        "correct": false,
+        "prod_pred": "emergency",
+        "prod_confidence": 0.515,
+        "prod_correct": false
+      },
+      {
+        "text": "我叫张某某某证号3201 **** **** 123434手机138****5678，帮我查一下",
+        "gold": [
+          "provide_info",
+          "self_check"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.598,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.598,
+        "prod_correct": true
+      },
+      {
+        "text": "我70岁了不太懂这些，刚才有人打电话让我去银行转钱说是派出所的",
+        "gold": [
+          "describe_situation",
+          "elderly_identity"
+        ],
+        "pred": "emergency",
+        "confidence": 0.536,
+        "correct": false,
+        "prod_pred": "emergency",
+        "prod_confidence": 0.536,
+        "prod_correct": false
+      },
+      {
+        "text": "帮我分析这个链接 http://xn--tiq75w2w.com/login",
+        "gold": [
+          "report_intents",
+          "describe_situation",
+          "self_check"
+        ],
+        "pred": "self_check",
+        "confidence": 0.373,
+        "correct": true,
+        "prod_pred": "self_check",
+        "prod_confidence": 0.129,
+        "prod_correct": true
+      },
+      {
+        "text": "刷单诈骗和杀猪盘之间有什么关联？",
+        "gold": [
+          "knowledge_queries"
+        ],
+        "pred": "knowledge_queries",
+        "confidence": 0.636,
+        "correct": true,
+        "prod_pred": "knowledge_queries",
+        "prod_confidence": 0.636,
+        "prod_correct": true
+      },
+      {
+        "text": "不好了！刚才接到警察电话说我涉嫌洗钱，让转账到安全账户，我已经转了5000块...",
+        "gold": [
+          "emergency",
+          "describe_situation"
+        ],
+        "pred": "emergency",
+        "confidence": 0.653,
+        "correct": true,
+        "prod_pred": "emergency",
+        "prod_confidence": 1.0,
+        "prod_correct": true
+      },
+      {
+        "text": "谢谢你的帮助！我会提醒家人注意的",
+        "gold": [
+          "thanks"
+        ],
+        "pred": "thanks",
+        "confidence": 0.582,
+        "correct": true,
+        "prod_pred": "thanks",
+        "prod_confidence": 0.24,
+        "prod_correct": true
+      },
+      {
+        "text": "网上认识的朋友推荐我投资虚拟币，投了2000赚了500，现在让我再加5万，我是不某某某了？",
+        "gold": [
+          "describe_situation"
+        ],
+        "pred": "emergency",
+        "confidence": 0.462,
+        "correct": false,
+        "prod_pred": "crypto_concern",
+        "prod_confidence": 0.26,
+        "prod_correct": false
+      },
+      {
+        "text": "短信联系的",
+        "gold": [
+          "describe_situation"
+        ],
+        "pred": "greetings",
+        "confidence": 0.484,
+        "correct": false,
+        "prod_pred": "greetings",
+        "prod_confidence": 0.484,
+        "prod_correct": false
+      },
+      {
+        "text": "有个人加我微信说刷单做任务返利，一单返30，靠谱吗？",
+        "gold": [
+          "describe_situation"
+        ],
+        "pred": "describe_situation",
+        "confidence": 0.482,
+        "correct": true,
+        "prod_pred": "describe_situation",
+        "prod_confidence": 0.5,
+        "prod_correct": true
+      },
+      {
+        "text": "有一个自称农业银行的人，叫我给指定账户打款，然后给我连本带利返回，这是诈骗吗。",
+        "gold": [
+          "describe_situation",
+          "fraud_inquiry"
+        ],
+        "pred": "emergency",
+        "confidence": 0.483,
+        "correct": false,
+        "prod_pred": "self_check",
+        "prod_confidence": 0.129,
+        "prod_correct": false
+      },
+      {
+        "text": "我要举报可疑信息",
+        "gold": [
+          "report_intents"
+        ],
+        "pred": "report_intents",
+        "confidence": 0.734,
+        "correct": true,
+        "prod_pred": "report_intents",
+        "prod_confidence": 0.734,
+        "prod_correct": true
+      },
+      {
+        "text": "我的电话号码是195****6982",
+        "gold": [
+          "provide_info"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.677,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.677,
+        "prod_correct": true
+      },
+      {
+        "text": "我的电话号195****6982",
+        "gold": [
+          "provide_info"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.68,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.68,
+        "prod_correct": true
+      },
+      {
+        "text": "我想做一次情景模拟训练",
+        "gold": [
+          "scenario_requests"
+        ],
+        "pred": "scenario_requests",
+        "confidence": 0.485,
+        "correct": true,
+        "prod_pred": "scenario_requests",
+        "prod_confidence": 0.618,
+        "prod_correct": true
+      },
+      {
+        "text": "我叫张某，身份证3201 **** **** 123434，手机138****5678，帮我查下有没有被诈骗",
+        "gold": [
+          "provide_info",
+          "self_check"
+        ],
+        "pred": "report_intents",
+        "confidence": 0.608,
+        "correct": false,
+        "prod_pred": "help_requests",
+        "prod_confidence": 0.09,
+        "prod_correct": false
+      },
+      {
+        "text": "我叫张某，电话139****1111，卡号6222 **** **** 0123，验证码****",
+        "gold": [
+          "provide_info"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.641,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.641,
+        "prod_correct": true
+      },
+      {
+        "text": "我今年70了不太懂这些，刚才有人打电话说是派出所的让我去银行转钱",
+        "gold": [
+          "describe_situation",
+          "elderly_identity"
+        ],
+        "pred": "emergency",
+        "confidence": 0.531,
+        "correct": false,
+        "prod_pred": "emergency",
+        "prod_confidence": 0.531,
+        "prod_correct": false
+      },
+      {
+        "text": "总结一下反诈卫士都有哪些功能",
+        "gold": [
+          "help_requests",
+          "knowledge_queries"
+        ],
+        "pred": "knowledge_queries",
+        "confidence": 0.485,
+        "correct": true,
+        "prod_pred": "knowledge_queries",
+        "prod_confidence": 0.485,
+        "prod_correct": true
+      },
+      {
+        "text": "帮我分析一下这个链接 http://xn--tiq75w2w.com/login",
+        "gold": [
+          "report_intents",
+          "describe_situation",
+          "self_check"
+        ],
+        "pred": "self_check",
+        "confidence": 0.381,
+        "correct": true,
+        "prod_pred": "self_check",
+        "prod_confidence": 0.129,
+        "prod_correct": true
+      },
+      {
+        "text": "告诉我冒充公检法诈骗的详解",
+        "gold": [
+          "knowledge_queries",
+          "fraud_inquiry"
+        ],
+        "pred": "knowledge_queries",
+        "confidence": 0.67,
+        "correct": true,
+        "prod_pred": "knowledge_queries",
+        "prod_confidence": 0.098,
+        "prod_correct": true
+      },
+      {
+        "text": "你好，我想咨询一下反诈知识",
+        "gold": [
+          "knowledge_queries"
+        ],
+        "pred": "greetings",
+        "confidence": 0.636,
+        "correct": false,
+        "prod_pred": "knowledge_queries",
+        "prod_confidence": 0.098,
+        "prod_correct": true
+      },
+      {
+        "text": "不好了！接到自称警察的电话说我涉嫌洗钱，我已经转了5000块到安全账户了...",
+        "gold": [
+          "emergency",
+          "describe_situation"
+        ],
+        "pred": "emergency",
+        "confidence": 0.641,
+        "correct": true,
+        "prod_pred": "emergency",
+        "prod_confidence": 1.0,
+        "prod_correct": true
+      },
+      {
+        "text": "195****6982",
+        "gold": [
+          "provide_info"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.405,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.405,
+        "prod_correct": true
+      },
+      {
+        "text": "验证码是****",
+        "gold": [
+          "provide_info"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.374,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.374,
+        "prod_correct": true
+      },
+      {
+        "text": "身份证是4113 **** **** 343434",
+        "gold": [
+          "provide_info"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.563,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.563,
+        "prod_correct": true
+      },
+      {
+        "text": "身份证123456789",
+        "gold": [
+          "provide_info"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.687,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.687,
+        "prod_correct": true
+      },
+      {
+        "text": "谢谢你的帮助！我会提醒家人注意防范的",
+        "gold": [
+          "thanks"
+        ],
+        "pred": "thanks",
+        "confidence": 0.426,
+        "correct": true,
+        "prod_pred": "thanks",
+        "prod_confidence": 0.24,
+        "prod_correct": true
+      },
+      {
+        "text": "自称是银行的",
+        "gold": [
+          "describe_situation"
+        ],
+        "pred": "emergency",
+        "confidence": 0.405,
+        "correct": false,
+        "prod_pred": "emergency",
+        "prod_confidence": 0.405,
+        "prod_correct": false
+      },
+      {
+        "text": "联系银行",
+        "gold": [
+          "describe_situation"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.497,
+        "correct": false,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.497,
+        "prod_correct": false
+      },
+      {
+        "text": "给我讲讲刷单返利诈骗。",
+        "gold": [
+          "knowledge_queries",
+          "fraud_inquiry"
+        ],
+        "pred": "report_intents",
+        "confidence": 0.653,
+        "correct": false,
+        "prod_pred": "knowledge_queries",
+        "prod_confidence": 0.195,
+        "prod_correct": true
+      },
+      {
+        "text": "电话号码195****6982",
+        "gold": [
+          "provide_info"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.609,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.609,
+        "prod_correct": true
+      },
+      {
+        "text": "电话号123456789",
+        "gold": [
+          "provide_info"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.61,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.61,
+        "prod_correct": true
+      },
+      {
+        "text": "校园贷",
+        "gold": [
+          "fraud_inquiry",
+          "knowledge_queries"
+        ],
+        "pred": "unknown",
+        "confidence": 0.291,
+        "correct": false,
+        "prod_pred": "unknown",
+        "prod_confidence": 0.291,
+        "prod_correct": false
+      },
+      {
+        "text": "有个自称银行的人叫我转账",
+        "gold": [
+          "describe_situation"
+        ],
+        "pred": "emergency",
+        "confidence": 0.615,
+        "correct": false,
+        "prod_pred": "emergency",
+        "prod_confidence": 0.615,
+        "prod_correct": false
+      },
+      {
+        "text": "有一个自称银行的人叫我转账给他",
+        "gold": [
+          "describe_situation"
+        ],
+        "pred": "emergency",
+        "confidence": 0.572,
+        "correct": false,
+        "prod_pred": "emergency",
+        "prod_confidence": 0.572,
+        "prod_correct": false
+      },
+      {
+        "text": "有一个自称农业银行的人，叫我给指定账户打款，然后给我连本带利返回，这是诈骗吗？",
+        "gold": [
+          "describe_situation",
+          "fraud_inquiry"
+        ],
+        "pred": "emergency",
+        "confidence": 0.49,
+        "correct": false,
+        "prod_pred": "self_check",
+        "prod_confidence": 0.129,
+        "prod_correct": false
+      },
+      {
+        "text": "是银行的人，短信联系我的，让我转账",
+        "gold": [
+          "describe_situation"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.626,
+        "correct": false,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.626,
+        "prod_correct": false
+      },
+      {
+        "text": "我的银行卡6222 **** **** 0123",
+        "gold": [
+          "provide_info"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.561,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.561,
+        "prod_correct": true
+      },
+      {
+        "text": "我的身份证是110101**********4578",
+        "gold": [
+          "provide_info"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.69,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.69,
+        "prod_correct": true
+      },
+      {
+        "text": "我的电话号码",
+        "gold": [
+          "provide_info",
+          "describe_situation"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.677,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.677,
+        "prod_correct": true
+      },
+      {
+        "text": "我的手机号是138****5678，银行卡6222 **** **** 0123",
+        "gold": [
+          "provide_info"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.661,
+        "correct": true,
+        "prod_pred": "provide_info",
+        "prod_confidence": 0.661,
+        "prod_correct": true
+      },
+      {
+        "text": "我好像被骗了",
+        "gold": [
+          "describe_situation",
+          "self_check"
+        ],
+        "pred": "emergency",
+        "confidence": 0.615,
+        "correct": false,
+        "prod_pred": "help_requests",
+        "prod_confidence": 0.112,
+        "prod_correct": false
+      },
+      {
+        "text": "我可能被骗了",
+        "gold": [
+          "describe_situation",
+          "self_check"
+        ],
+        "pred": "emergency",
+        "confidence": 0.564,
+        "correct": false,
+        "prod_pred": "help_requests",
+        "prod_confidence": 0.112,
+        "prod_correct": false
+      },
+      {
+        "text": "我可能被诈骗了。",
+        "gold": [
+          "describe_situation",
+          "self_check"
+        ],
+        "pred": "emergency",
+        "confidence": 0.625,
+        "correct": false,
+        "prod_pred": "help_requests",
+        "prod_confidence": 0.09,
+        "prod_correct": false
+      },
+      {
+        "text": "帮我识别骗局",
+        "gold": [
+          "help_requests",
+          "describe_situation",
+          "self_check"
+        ],
+        "pred": "report_intents",
+        "confidence": 0.66,
+        "correct": false,
+        "prod_pred": "self_check",
+        "prod_confidence": 0.129,
+        "prod_correct": true
+      },
+      {
+        "text": "学习反诈知识",
+        "gold": [
+          "knowledge_queries"
+        ],
+        "pred": "knowledge_queries",
+        "confidence": 0.539,
+        "correct": true,
+        "prod_pred": "knowledge_queries",
+        "prod_confidence": 0.098,
+        "prod_correct": true
+      },
+      {
+        "text": "告诉我虚假投资诈骗的详解",
+        "gold": [
+          "knowledge_queries",
+          "fraud_inquiry"
+        ],
+        "pred": "fraud_inquiry",
+        "confidence": 0.644,
+        "correct": true,
+        "prod_pred": "knowledge_queries",
+        "prod_confidence": 0.098,
+        "prod_correct": true
+      },
+      {
+        "text": "你好，我的电话号是195****6982",
+        "gold": [
+          "greetings",
+          "provide_info"
+        ],
+        "pred": "provide_info",
+        "confidence": 0.648,
+        "correct": true,
+        "prod_pred": "greetings",
+        "prod_confidence": 0.088,
+        "prod_correct": true
+      },
+      {
+        "text": "什么是刷单诈骗",
+        "gold": [
+          "knowledge_queries",
+          "fraud_inquiry"
+        ],
+        "pred": "knowledge_queries",
+        "confidence": 0.681,
+        "correct": true,
+        "prod_pred": "knowledge_queries",
+        "prod_confidence": 0.195,
+        "prod_correct": true
+      }
+    ]
+  },
+  "fraud_type": {
+    "total": 18,
+    "top1_hits": 9,
+    "top3_hits": 14,
+    "top1_accuracy": 0.5,
+    "top3_accuracy": 0.7778,
+    "prod_top1_hits": 18,
+    "prod_top3_hits": 18,
+    "prod_top1_accuracy": 1.0,
+    "prod_top3_accuracy": 1.0,
+    "details": [
+      {
+        "text": "有一个自称农业银行的人，叫我给指定账户打款，然后给我连本带利返回，这是诈骗吗",
+        "gold": [
+          "刷单返利",
+          "虚假投资"
+        ],
+        "pred_top3": [
+          "虚假征信",
+          "冒充熟人",
+          "培训退费诈骗"
+        ],
+        "hit_top1": false,
+        "hit_top3": false,
+        "prod_top3": [
+          "虚假投资",
+          "虚假征信",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "告诉我刷单返利诈骗的详解",
+        "gold": [
+          "刷单返利"
+        ],
+        "pred_top3": [
+          "刷单返利",
+          "快递引流诈骗",
+          "虚假征信"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "刷单返利",
+          "快递引流诈骗",
+          "虚假征信"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有个人加我微信说刷单做任务返利，一单返30块，靠谱吗？",
+        "gold": [
+          "刷单返利"
+        ],
+        "pred_top3": [
+          "冒充熟人",
+          "FaceTime诈骗",
+          "刷单返利"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "刷单返利",
+          "冒充熟人",
+          "FaceTime诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有一个自称农业银行的人叫我给指定账户打款连本带利返回这是诈骗吗",
+        "gold": [
+          "刷单返利",
+          "虚假投资"
+        ],
+        "pred_top3": [
+          "虚假征信",
+          "冒充熟人",
+          "培训退费诈骗"
+        ],
+        "hit_top1": false,
+        "hit_top3": false,
+        "prod_top3": [
+          "虚假投资",
+          "虚假征信",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "我投了2000到一个投资平台赚了500，现在让我再加5万，我是不某某某了？",
+        "gold": [
+          "虚假投资"
+        ],
+        "pred_top3": [
+          "冒充熟人",
+          "虚假投资",
+          "刷单返利"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假投资",
+          "冒充熟人",
+          "刷单返利"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "我70岁了不太懂这些，刚才有人打电话让我去银行转钱说是派出所的",
+        "gold": [
+          "冒充公检法"
+        ],
+        "pred_top3": [
+          "冒充熟人",
+          "冒充公检法",
+          "虚假征信"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "冒充公检法",
+          "冒充熟人",
+          "虚假征信"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "不好了！刚才接到警察电话说我涉嫌洗钱，让转账到安全账户，我已经转了5000块...",
+        "gold": [
+          "冒充公检法"
+        ],
+        "pred_top3": [
+          "冒充公检法",
+          "冒充熟人",
+          "虚假征信"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "冒充公检法",
+          "冒充熟人",
+          "虚假征信"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "网上认识的朋友推荐我投资虚拟币，投了2000赚了500，现在让我再加5万，我是不某某某了？",
+        "gold": [
+          "虚假投资",
+          "虚拟货币诈骗"
+        ],
+        "pred_top3": [
+          "虚拟货币诈骗",
+          "冒充熟人",
+          "虚假投资"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假投资",
+          "虚拟货币诈骗",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有个人加我微信说刷单做任务返利，一单返30，靠谱吗？",
+        "gold": [
+          "刷单返利"
+        ],
+        "pred_top3": [
+          "冒充熟人",
+          "FaceTime诈骗",
+          "刷单返利"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "刷单返利",
+          "冒充熟人",
+          "FaceTime诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有一个自称农业银行的人，叫我给指定账户打款，然后给我连本带利返回，这是诈骗吗。",
+        "gold": [
+          "刷单返利",
+          "虚假投资"
+        ],
+        "pred_top3": [
+          "虚假征信",
+          "冒充熟人",
+          "培训退费诈骗"
+        ],
+        "hit_top1": false,
+        "hit_top3": false,
+        "prod_top3": [
+          "虚假投资",
+          "虚假征信",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "我今年70了不太懂这些，刚才有人打电话说是派出所的让我去银行转钱",
+        "gold": [
+          "冒充公检法"
+        ],
+        "pred_top3": [
+          "冒充熟人",
+          "冒充公检法",
+          "虚假征信"
+        ],
+        "hit_top1": false,
+        "hit_top3": true,
+        "prod_top3": [
+          "冒充公检法",
+          "冒充熟人",
+          "虚假征信"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "告诉我冒充公检法诈骗的详解",
+        "gold": [
+          "冒充公检法"
+        ],
+        "pred_top3": [
+          "冒充公检法",
+          "快递引流诈骗",
+          "虚假征信"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "冒充公检法",
+          "快递引流诈骗",
+          "虚假征信"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "不好了！接到自称警察的电话说我涉嫌洗钱，我已经转了5000块到安全账户了...",
+        "gold": [
+          "冒充公检法"
+        ],
+        "pred_top3": [
+          "冒充公检法",
+          "冒充熟人",
+          "虚假征信"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "冒充公检法",
+          "冒充熟人",
+          "虚假征信"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "给我讲讲刷单返利诈骗。",
+        "gold": [
+          "刷单返利"
+        ],
+        "pred_top3": [
+          "刷单返利",
+          "快递引流诈骗",
+          "冒充熟人"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "刷单返利",
+          "快递引流诈骗",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "校园贷",
+        "gold": [
+          "校园贷"
+        ],
+        "pred_top3": [
+          "校园贷",
+          "虚假网络贷款",
+          "培训退费诈骗"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "校园贷",
+          "虚假网络贷款",
+          "培训退费诈骗"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "有一个自称农业银行的人，叫我给指定账户打款，然后给我连本带利返回，这是诈骗吗？",
+        "gold": [
+          "刷单返利",
+          "虚假投资"
+        ],
+        "pred_top3": [
+          "虚假征信",
+          "冒充熟人",
+          "培训退费诈骗"
+        ],
+        "hit_top1": false,
+        "hit_top3": false,
+        "prod_top3": [
+          "虚假投资",
+          "虚假征信",
+          "冒充熟人"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "告诉我虚假投资诈骗的详解",
+        "gold": [
+          "虚假投资"
+        ],
+        "pred_top3": [
+          "虚假投资",
+          "虚假征信",
+          "刷单返利"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "虚假投资",
+          "虚假征信",
+          "刷单返利"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      },
+      {
+        "text": "什么是刷单诈骗",
+        "gold": [
+          "刷单返利"
+        ],
+        "pred_top3": [
+          "刷单返利",
+          "快递引流诈骗",
+          "虚假征信"
+        ],
+        "hit_top1": true,
+        "hit_top3": true,
+        "prod_top3": [
+          "刷单返利",
+          "快递引流诈骗",
+          "虚假征信"
+        ],
+        "prod_hit_top1": true,
+        "prod_hit_top3": true
+      }
+    ]
+  },
+  "risk": {
+    "total": 59,
+    "tp": 15,
+    "fp": 0,
+    "tn": 44,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "accuracy": 1.0,
+    "stored_accuracy": 0.5593,
+    "stored_total": 59,
+    "details": [
+      {
+        "text": "你好",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "greetings",
+        "stored": "none"
+      },
+      {
+        "text": "有一个自称农业银行的人，叫我给指定账户打款，然后给我连本带利返回，这是诈骗吗",
+        "gold": true,
+        "pred": true,
+        "level": "critical",
+        "intent": "emergency",
+        "stored": "low"
+      },
+      {
+        "text": "帮助",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "help_requests",
+        "stored": "high"
+      },
+      {
+        "text": "我的手机号是138****5678",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "诈骗罪的量刑标准是什么？被骗的钱能追回来吗？",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "legal_queries",
+        "stored": "high"
+      },
+      {
+        "text": "常见的电信诈骗类型有哪些？",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "knowledge_queries",
+        "stored": "none"
+      },
+      {
+        "text": "告诉我刷单返利诈骗的详解",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "knowledge_queries",
+        "stored": "critical"
+      },
+      {
+        "text": "有个人加我微信说刷单做任务返利，一单返30块，靠谱吗？",
+        "gold": true,
+        "pred": true,
+        "level": "high",
+        "intent": "describe_situation",
+        "stored": "medium"
+      },
+      {
+        "text": "有一个自称农业银行的人叫我给指定账户打款连本带利返回这是诈骗吗",
+        "gold": true,
+        "pred": true,
+        "level": "critical",
+        "intent": "emergency",
+        "stored": "none"
+      },
+      {
+        "text": "我投了2000到一个投资平台赚了500，现在让我再加5万，我是不某某某了？",
+        "gold": true,
+        "pred": true,
+        "level": "high",
+        "intent": "emergency",
+        "stored": "low"
+      },
+      {
+        "text": "我叫张某某某证号3201 **** **** 123434手机138****5678，帮我查一下",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "high"
+      },
+      {
+        "text": "我70岁了不太懂这些，刚才有人打电话让我去银行转钱说是派出所的",
+        "gold": true,
+        "pred": true,
+        "level": "high",
+        "intent": "emergency",
+        "stored": "medium"
+      },
+      {
+        "text": "帮我分析这个链接 http://xn--tiq75w2w.com/login",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "self_check",
+        "stored": "low"
+      },
+      {
+        "text": "刷单诈骗和杀猪盘之间有什么关联？",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "knowledge_queries",
+        "stored": "high"
+      },
+      {
+        "text": "不好了！刚才接到警察电话说我涉嫌洗钱，让转账到安全账户，我已经转了5000块...",
+        "gold": true,
+        "pred": true,
+        "level": "high",
+        "intent": "emergency",
+        "stored": "high"
+      },
+      {
+        "text": "谢谢你的帮助！我会提醒家人注意的",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "thanks",
+        "stored": "high"
+      },
+      {
+        "text": "网上认识的朋友推荐我投资虚拟币，投了2000赚了500，现在让我再加5万，我是不某某某了？",
+        "gold": true,
+        "pred": true,
+        "level": "high",
+        "intent": "emergency",
+        "stored": "low"
+      },
+      {
+        "text": "短信联系的",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "greetings",
+        "stored": "none"
+      },
+      {
+        "text": "有个人加我微信说刷单做任务返利，一单返30，靠谱吗？",
+        "gold": true,
+        "pred": true,
+        "level": "high",
+        "intent": "describe_situation",
+        "stored": "medium"
+      },
+      {
+        "text": "有一个自称农业银行的人，叫我给指定账户打款，然后给我连本带利返回，这是诈骗吗。",
+        "gold": true,
+        "pred": true,
+        "level": "critical",
+        "intent": "emergency",
+        "stored": "none"
+      },
+      {
+        "text": "我要举报可疑信息",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "report_intents",
+        "stored": "none"
+      },
+      {
+        "text": "我的电话号码是195****6982",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "我的电话号195****6982",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "我想做一次情景模拟训练",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "scenario_requests",
+        "stored": "high"
+      },
+      {
+        "text": "我叫张某，身份证3201 **** **** 123434，手机138****5678，帮我查下有没有被诈骗",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "report_intents",
+        "stored": "high"
+      },
+      {
+        "text": "我叫张某，电话139****1111，卡号6222 **** **** 0123，验证码****",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "我今年70了不太懂这些，刚才有人打电话说是派出所的让我去银行转钱",
+        "gold": true,
+        "pred": true,
+        "level": "high",
+        "intent": "emergency",
+        "stored": "low"
+      },
+      {
+        "text": "总结一下反诈卫士都有哪些功能",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "knowledge_queries",
+        "stored": "critical"
+      },
+      {
+        "text": "帮我分析一下这个链接 http://xn--tiq75w2w.com/login",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "self_check",
+        "stored": "high"
+      },
+      {
+        "text": "告诉我冒充公检法诈骗的详解",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "knowledge_queries",
+        "stored": "high"
+      },
+      {
+        "text": "你好，我想咨询一下反诈知识",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "greetings",
+        "stored": "none"
+      },
+      {
+        "text": "不好了！接到自称警察的电话说我涉嫌洗钱，我已经转了5000块到安全账户了...",
+        "gold": true,
+        "pred": true,
+        "level": "high",
+        "intent": "emergency",
+        "stored": "high"
+      },
+      {
+        "text": "195****6982",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "验证码是****",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "身份证是4113 **** **** 343434",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "身份证123456789",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "谢谢你的帮助！我会提醒家人注意防范的",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "thanks",
+        "stored": "high"
+      },
+      {
+        "text": "自称是银行的",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "emergency",
+        "stored": "none"
+      },
+      {
+        "text": "联系银行",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "medium"
+      },
+      {
+        "text": "给我讲讲刷单返利诈骗。",
+        "gold": false,
+        "pred": false,
+        "level": "medium",
+        "intent": "report_intents",
+        "stored": "medium"
+      },
+      {
+        "text": "电话号码195****6982",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "电话号123456789",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "校园贷",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "unknown",
+        "stored": "low"
+      },
+      {
+        "text": "有个自称银行的人叫我转账",
+        "gold": true,
+        "pred": true,
+        "level": "high",
+        "intent": "emergency",
+        "stored": "none"
+      },
+      {
+        "text": "有一个自称银行的人叫我转账给他",
+        "gold": true,
+        "pred": true,
+        "level": "high",
+        "intent": "emergency",
+        "stored": "medium"
+      },
+      {
+        "text": "有一个自称农业银行的人，叫我给指定账户打款，然后给我连本带利返回，这是诈骗吗？",
+        "gold": true,
+        "pred": true,
+        "level": "critical",
+        "intent": "emergency",
+        "stored": "none"
+      },
+      {
+        "text": "是银行的人，短信联系我的，让我转账",
+        "gold": true,
+        "pred": true,
+        "level": "high",
+        "intent": "provide_info",
+        "stored": "low"
+      },
+      {
+        "text": "我的银行卡6222 **** **** 0123",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "我的身份证是110101**********4578",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "我的电话号码",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "我的手机号是138****5678，银行卡6222 **** **** 0123",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "我好像被骗了",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "emergency",
+        "stored": "none"
+      },
+      {
+        "text": "我可能被骗了",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "emergency",
+        "stored": "none"
+      },
+      {
+        "text": "我可能被诈骗了。",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "emergency",
+        "stored": "none"
+      },
+      {
+        "text": "帮我识别骗局",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "report_intents",
+        "stored": "medium"
+      },
+      {
+        "text": "学习反诈知识",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "knowledge_queries",
+        "stored": "none"
+      },
+      {
+        "text": "告诉我虚假投资诈骗的详解",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "fraud_inquiry",
+        "stored": "critical"
+      },
+      {
+        "text": "你好，我的电话号是195****6982",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "provide_info",
+        "stored": "none"
+      },
+      {
+        "text": "什么是刷单诈骗",
+        "gold": false,
+        "pred": false,
+        "level": "none",
+        "intent": "knowledge_queries",
+        "stored": "none"
+      }
+    ],
+    "risk_raw": {
+      "tp": 15,
+      "fp": 1,
+      "tn": 43,
+      "fn": 0,
+      "precision": 0.9375,
+      "recall": 1.0,
+      "f1": 0.9677,
+      "accuracy": 0.9831
+    }
+  },
+  "distribution": {
+    "risk_level": {
+      "none": 43,
+      "critical": 4,
+      "high": 11,
+      "medium": 1
+    },
+    "type_dist": {}
+  }
+}

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280, initial-scale=1.0">
+<title>反诈卫士 - 智能反诈对话系统</title>
+<style>
+:root {
+  --primary: #1a73e8;
+  --primary-dark: #1557b0;
+  --primary-light: #e8f0fe;
+  --danger: #d93025;
+  --danger-light: #fce8e6;
+  --warning: #f9ab00;
+  --success: #1e8e3e;
+  --bg: #f0f2f5;
+  --card: #ffffff;
+  --text: #202124;
+  --text-secondary: #5f6368;
+  --border: #dadce0;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  background: #f0f2f5;
+  width: 1280px; height: 720px;
+  display: flex; overflow: hidden;
+}
+/* Sidebar */
+.sidebar {
+  width: 260px; background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+  color: white; flex-shrink: 0; display: flex; flex-direction: column;
+}
+.sidebar-header {
+  padding: 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.sidebar-logo { font-size: 20px; font-weight: 700; }
+.sidebar-logo span { color: #4da3ff; }
+.sidebar-subtitle { font-size: 12px; color: #8899aa; margin-top: 4px; }
+.sidebar-nav { flex: 1; padding: 12px 8px; display: flex; flex-direction: column; gap: 2px; }
+.nav-item {
+  padding: 10px 12px; border-radius: 8px; font-size: 14px; color: #aab;
+  cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.2s;
+}
+.nav-item:hover { background: rgba(255,255,255,0.06); color: #ddd; }
+.nav-item.active { background: rgba(26,115,232,0.25); color: #4da3ff; }
+.nav-icon { font-size: 18px; width: 24px; text-align: center; }
+.sidebar-footer {
+  padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 12px; color: #556;
+}
+/* Main chat area */
+.chat-area { flex: 1; display: flex; flex-direction: column; background: #f0f2f5; }
+.chat-header {
+  background: white; padding: 14px 24px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.chat-header-left { display: flex; align-items: center; gap: 10px; }
+.chat-header-avatar {
+  width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), #4285f4);
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.chat-header-title { font-size: 16px; font-weight: 600; }
+.chat-header-status { font-size: 12px; color: #1e8e3e; }
+.risk-indicator {
+  font-size: 12px; padding: 4px 10px; border-radius: 12px; font-weight: 600;
+}
+.risk-none { background: #e8f5e9; color: #1e8e3e; }
+.risk-high { background: #fce8e6; color: #d93025; }
+.risk-critical { background: #d93025; color: white; animation: pulse 1s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+/* Messages */
+.chat-messages {
+  flex: 1; padding: 16px 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;
+}
+.msg-row { display: flex; gap: 10px; max-width: 85%; animation: msgIn 0.35s ease; }
+@keyframes msgIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.msg-row.user { align-self: flex-end; flex-direction: row-reverse; }
+.msg-row.bot { align-self: flex-start; }
+.msg-avatar {
+  width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.msg-avatar.bot { background: #e8f0fe; }
+.msg-avatar.user { background: var(--primary); color: white; }
+.msg-bubble {
+  padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.55;
+  word-break: break-word;
+}
+.msg-row.bot .msg-bubble {
+  background: white; border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+.msg-row.user .msg-bubble {
+  background: var(--primary); color: white; border-bottom-right-radius: 4px;
+}
+.msg-actions { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.action-chip {
+  padding: 6px 14px; border-radius: 16px; font-size: 13px; cursor: pointer;
+  background: white; border: 1px solid var(--border); color: var(--text);
+  transition: all 0.15s;
+}
+.action-chip:hover { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+.action-chip.emergency { background: var(--danger-light); border-color: var(--danger); color: var(--danger); font-weight: 600; }
+.action-chip.phone { background: #e8f5e9; border-color: #1e8e3e; color: #1e8e3e; }
+
+/* Input */
+.chat-input-area {
+  background: white; padding: 14px 24px; border-top: 1px solid var(--border);
+  display: flex; gap: 10px; align-items: center;
+}
+.chat-input {
+  flex: 1; padding: 10px 16px; border: 1px solid var(--border); border-radius: 24px;
+  font-size: 14px; outline: none; transition: border-color 0.2s;
+}
+.chat-input:focus { border-color: var(--primary); }
+.btn-send {
+  padding: 10px 24px; background: var(--primary); color: white; border: none;
+  border-radius: 24px; font-size: 14px; cursor: pointer; white-space: nowrap;
+  transition: background 0.2s;
+}
+.btn-send:hover { background: var(--primary-dark); }
+
+/* Typing indicator */
+.typing-indicator { display: flex; gap: 4px; padding: 8px 14px; }
+.typing-dot { width: 7px; height: 7px; border-radius: 50%; background: #999; animation: typing 1.4s infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing { 0%,60%,100% { opacity: 0.3; transform: scale(0.8); } 30% { opacity: 1; transform: scale(1); } }
+
+/* Title screen overlay */
+.overlay {
+  position: fixed; top: 0; left: 0; width: 1280px; height: 720px;
+  background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center;
+  z-index: 100; transition: opacity 0.5s;
+}
+.overlay.hidden { opacity: 0; pointer-events: none; }
+.overlay-card {
+  background: white; border-radius: 16px; padding: 40px; text-align: center;
+  max-width: 600px; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.overlay-icon { font-size: 64px; margin-bottom: 16px; }
+.overlay-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+.overlay-sub { font-size: 16px; color: var(--text-secondary); margin-bottom: 20px; }
+.overlay-features { display: flex; gap: 20px; justify-content: center; margin-bottom: 20px; }
+.overlay-feat { text-align: center; }
+.overlay-feat .icon { font-size: 32px; }
+.overlay-feat .label { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
+
+.privacy-badge {
+  display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px;
+  background: #e8f5e9; color: #1e8e3e; margin-left: 6px; font-weight: 600;
+}
+.risk-tag {
+  display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px;
+  margin-left: 4px; font-weight: 600;
+}
+.risk-tag.critical { background: #fce8e6; color: #c5221f; }
+.risk-tag.high { background: #fef7e0; color: #e37400; }
+</style>
+</head>
+<body>
+
+<!-- Overlay intro -->
+<div class="overlay" id="overlay">
+  <div class="overlay-card">
+    <div class="overlay-icon">🛡️</div>
+    <div class="overlay-title">多模态智能反诈对话系统</div>
+    <div class="overlay-sub">Anti-Fraud Intelligent Dialogue System</div>
+    <div class="overlay-features">
+      <div class="overlay-feat"><div class="icon">🔍</div><div class="label">风险识别</div></div>
+      <div class="overlay-feat"><div class="icon">🔐</div><div class="label">隐私保护</div></div>
+      <div class="overlay-feat"><div class="icon">📚</div><div class="label">知识科普</div></div>
+      <div class="overlay-feat"><div class="icon">🎮</div><div class="label">情景训练</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Main UI -->
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="sidebar-logo">🛡️ <span>反诈卫士</span></div>
+    <div class="sidebar-subtitle">AI智能反诈助手 v2.2</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-item active"><span class="nav-icon">💬</span> 智能对话</div>
+    <div class="nav-item"><span class="nav-icon">📚</span> 知识学习</div>
+    <div class="nav-item"><span class="nav-icon">🎮</span> 情景闯关</div>
+    <div class="nav-item"><span class="nav-icon">📜</span> 历史对话</div>
+    <div class="nav-item"><span class="nav-icon">🏆</span> 我的成就</div>
+  </div>
+  <div class="sidebar-footer">
+    <div style="margin-bottom:4px;">🟢 系统运行中</div>
+    <div style="font-size:11px;">隐私保护已开启 · 端到端加密</div>
+  </div>
+</div>
+
+<div class="chat-area">
+  <div class="chat-header">
+    <div class="chat-header-left">
+      <div class="chat-header-avatar">🤖</div>
+      <div>
+        <div class="chat-header-title">反诈卫士 · AI智能助手</div>
+        <div class="chat-header-status">● 在线 — 7×24小时守护</div>
+      </div>
+    </div>
+    <div class="risk-indicator risk-none" id="riskIndicator">🟢 安全</div>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-input-area">
+    <input class="chat-input" id="chatInput" placeholder="描述你遇到的情况，我来帮你识别诈骗风险..." readonly>
+    <button class="btn-send" id="btnSend">发送</button>
+  </div>
+</div>
+
+<script>
+// DOM
+const msgContainer = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const btnSend = document.getElementById('btnSend');
+const riskIndicator = document.getElementById('riskIndicator');
+const overlay = document.getElementById('overlay');
+
+// State
+let isProcessing = false;
+
+function setRisk(level) {
+  riskIndicator.className = 'risk-indicator';
+  if (level === 'critical') {
+    riskIndicator.className += ' risk-critical';
+    riskIndicator.textContent = '🚨 紧急风险';
+  } else if (level === 'high') {
+    riskIndicator.className += ' risk-high';
+    riskIndicator.textContent = '🔴 高风险';
+  } else {
+    riskIndicator.className += ' risk-none';
+    riskIndicator.textContent = '🟢 安全';
+  }
+}
+
+function addMsg(role, html, delay = 0) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const row = document.createElement('div');
+      row.className = 'msg-row ' + role;
+      const avatar = document.createElement('div');
+      avatar.className = 'msg-avatar ' + role;
+      avatar.textContent = role === 'bot' ? '🤖' : '👤';
+      const bubble = document.createElement('div');
+      bubble.className = 'msg-bubble';
+      bubble.innerHTML = html;
+      row.appendChild(avatar);
+      row.appendChild(bubble);
+      msgContainer.appendChild(row);
+      msgContainer.scrollTop = msgContainer.scrollHeight;
+      resolve(row);
+    }, delay);
+  });
+}
+
+function addActions(actions, delay = 0) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      const row = document.createElement('div');
+      row.className = 'msg-row bot';
+      const avatar = document.createElement('div');
+      avatar.className = 'msg-avatar bot';
+      avatar.textContent = '🤖';
+      const wrapper = document.createElement('div');
+      const actionsDiv = document.createElement('div');
+      actionsDiv.className = 'msg-actions';
+      actions.forEach(a => {
+        const chip = document.createElement('span');
+        chip.className = 'action-chip ' + (a.cls || '');
+        chip.textContent = (a.icon || '') + ' ' + a.label;
+        actionsDiv.appendChild(chip);
+      });
+      wrapper.appendChild(actionsDiv);
+      row.appendChild(avatar);
+      row.appendChild(wrapper);
+      msgContainer.appendChild(row);
+      msgContainer.scrollTop = msgContainer.scrollHeight;
+      resolve(row);
+    }, delay);
+  });
+}
+
+function showTyping(duration) {
+  return new Promise(resolve => {
+    const row = document.createElement('div');
+    row.className = 'msg-row bot';
+    row.id = 'typingRow';
+    const avatar = document.createElement('div');
+    avatar.className = 'msg-avatar bot';
+    avatar.textContent = '🤖';
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble';
+    bubble.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+    row.appendChild(avatar);
+    row.appendChild(bubble);
+    msgContainer.appendChild(row);
+    msgContainer.scrollTop = msgContainer.scrollHeight;
+    setTimeout(() => { row.remove(); resolve(); }, duration);
+  });
+}
+
+function setInput(val) {
+  chatInput.value = val;
+}
+
+async function runDemo() {
+  window.__demoDone = false;
+  await new Promise(r => setTimeout(r, 800));
+  overlay.classList.add('hidden');
+  await new Promise(r => setTimeout(r, 500));
+
+  // === 1. Greeting ===
+  setInput('你好，我想了解一下这个系统');
+  await new Promise(r => setTimeout(r, 500));
+  await showTyping(1000);
+  await addMsg('bot', '👋 你好！我是<strong>反诈卫士</strong>——你的AI反诈助手！<br><br>我可以帮你：<br>🔍 <strong>识别骗局</strong> · 📚 <strong>学习知识</strong> · 🎮 <strong>情景闯关</strong> · 📢 <strong>举报分析</strong><br>🛡️ <strong>隐私保护</strong> · ⚖️ <strong>法律咨询</strong> · 🏆 <strong>成就系统</strong><br><br>有什么可以帮你的吗？');
+  await new Promise(r => setTimeout(r, 3000));
+
+  // === 2. Fraud knowledge ===
+  setInput('常见的电信诈骗类型有哪些？');
+  await new Promise(r => setTimeout(r, 500));
+  await showTyping(1200);
+  await addMsg('bot', '目前最常见的电信诈骗类型：<br><br>🔴 <strong>刷单返利</strong> — "足不出户日赚数百"都是骗局<br>🔴 <strong>冒充公检法</strong> — 假警察要求转账到"安全账户"<br>🔴 <strong>杀猪盘/虚假投资</strong> — 网恋诱导投资，平台全是假的<br>🔴 <strong>冒充客服退款</strong> — "快递丢了双倍赔"诱导屏幕共享<br>🔴 <strong>虚假征信</strong> — "注销校园贷"否则影响征信<br><br>📌 <strong>牢记：所有刷单都是诈骗！公检法不会电话办案！</strong>');
+  await new Promise(r => setTimeout(r, 3000));
+
+  // === 3. Self-check (自检) ===
+  setInput('最近有个网友推荐我投资虚拟币，投了2000赚了500，他让我再加5万，我是不是被骗了？');
+  await new Promise(r => setTimeout(r, 600));
+  setRisk('high');
+  await showTyping(1500);
+  await addMsg('bot', '🔴 <strong>高风险！这是典型的杀猪盘+虚假投资诈骗！</strong><br><br>【自检问题】对照以下特征：<br>⚠️ 对方是网上认识的"朋友"/恋人？→ <strong>杀猪盘套路</strong><br>⚠️ 推荐的投资平台不为人知？→ <strong>虚假平台</strong><br>⚠️ 前几次确实赚了？→ <strong>这是诱饵！</strong><br>⚠️ 现在让你加大投入？→ <strong>准备收网了！</strong><br><br>📌 <strong>诊断：你正在被骗！</strong>那2000赚500只是诱饵，5万投进去就取不出来了！<br>立即停止追加投资，尝试提现全部资金！');
+  await addActions([{label:'📞 拨打96110', cls:'phone'},{label:'尝试提现', cls:'emergency'}]);
+  await new Promise(r => setTimeout(r, 3500));
+
+  // === 4. Shuadan detection + risk alert ===
+  setInput('有个人加我微信说做任务返利，一单返30，靠谱吗？');
+  await new Promise(r => setTimeout(r, 500));
+  setRisk('high');
+  await showTyping(1300);
+  await addMsg('bot', '🔴 <strong>刷单诈骗高风险！</strong><br><br>【套路解析】<br>📌 第1步：小额返利获取信任<br>📌 第2步：诱导做大额"连单"<br>📌 第3步：借口"操作失误"拒绝提现<br>📌 第4步：要求继续充值"解冻"<br><br>⚠️ <strong>群里除了你全是托！先垫付资金的兼职全是诈骗！</strong>');
+  await addActions([{label:'📞 拨打96110', cls:'phone'},{label:'📢 举报该微信', cls:'emergency'}]);
+  await new Promise(r => setTimeout(r, 3000));
+
+  // === 5. Thank you (感谢回应) ===
+  setInput('谢谢你的提醒！还好先问了一下');
+  await new Promise(r => setTimeout(r, 400));
+  setRisk('none');
+  await showTyping(800);
+  await addMsg('bot', '👍 不客气！<strong>遇到可疑情况先咨询再行动</strong>——这是最好的防骗习惯！<br><br>💡 记得提醒身边家人朋友，特别是<strong>学生和老年人</strong>最容易被刷单诈骗盯上。');
+  await new Promise(r => setTimeout(r, 2500));
+
+  // === 6. Scenario simulation (情景模拟训练) ===
+  setInput('我想做一次情景模拟训练');
+  await new Promise(r => setTimeout(r, 400));
+  await showTyping(1000);
+  await addMsg('bot', '🎮 <strong>情景模拟训练 · 已开启！</strong><br><br>请听题：<br><br>📱 <strong>场景：冒充客服退款</strong><br>你收到一个电话，对方自称是淘宝客服，说你的快递在路上丢了，要双倍赔偿给你，但需要你下载一个"会议APP"开启屏幕共享来操作退款。<br><br>❓ 你应该怎么做？');
+  await addActions([{label:'A. 下载APP按对方指引操作', cls:''},{label:'B. 挂断电话，自行联系官方客服核实', cls:'phone'},{label:'C. 问对方要赔偿金', cls:''}]);
+  await new Promise(r => setTimeout(r, 2000));
+  // Show correct answer
+  await addMsg('bot', '✅ <strong>正确答案：B — 挂断电话，自行联系官方客服核实</strong><br><br>📌 任何要求<strong>下载不明APP+屏幕共享</strong>的"退款"都是诈骗！<br>真正的客服不会让你下载会议软件！<br><br>🎉 模拟完成！获得 <strong>+15经验值</strong>');
+  await new Promise(r => setTimeout(r, 3000));
+
+  // === 7. URL safety analysis ===
+  setInput('帮我分析这个链接 http://xn--tiq75w2w.com/login');
+  await new Promise(r => setTimeout(r, 400));
+  setRisk('high');
+  await showTyping(1500);
+  await addMsg('bot', '🔍 <strong>链接安全分析报告</strong><br><br>🔗 http://xn--tiq75w2w.com/login<br><br>⚠️ <strong>风险等级：高风险</strong><br>🔴 域名使用Punycode编码，疑似伪装正规网站<br>🔴 包含可疑关键词：<strong>"login"</strong>（钓鱼常用）<br>🔴 域名注册时间短，可信度低<br><br>🛡️ <strong>切勿输入任何账号密码！这是钓鱼网站！</strong>');
+  await addActions([{label:'📢 举报此链接', cls:'emergency'}]);
+  await new Promise(r => setTimeout(r, 3000));
+
+  // === 8. Elderly mode (老年人模式) ===
+  setInput('我今年70了不太懂这些，刚才有人打电话说是派出所的让我去银行转钱');
+  await new Promise(r => setTimeout(r, 500));
+  setRisk('critical');
+  await showTyping(1500);
+  await addMsg('bot', '🚨 <strong>大爷，千万别去银行！这是骗子的电话！</strong><br><br>跟您说大白话：<br>⛔ 真正的派出所<strong>不会打电话让您转钱</strong>！<br>⛔ 让您转钱到"安全账户"的<strong>全是骗子</strong>！<br><br>您这样做：<br>1️⃣ 先<strong>挂掉电话</strong>，不要再接<br>2️⃣ 告诉<strong>子女或邻居</strong>这件事<br>3️⃣ 实在不放心就打 <strong>110</strong> 问问真警察<br><br>大娘您别着急，骗子就是专挑咱们老年人下手，您问了我就不会被骗了！🛡️');
+  await addActions([{label:'🚔 拨打110核实', cls:'emergency'},{label:'👨‍👩‍👧 告诉家人', cls:'phone'}]);
+  await new Promise(r => setTimeout(r, 4000));
+
+  // === 9. Emergency + fear comfort (紧急+恐惧安抚) ===
+  setInput('我快急死了！刚才接到警察电话说我涉嫌犯罪，我已经转了5000块到安全账户了，怎么办啊好害怕...');
+  await new Promise(r => setTimeout(r, 500));
+  setRisk('critical');
+  await showTyping(1200);
+  await addMsg('bot', '🚨 <strong>别慌！我们一起处理这件事！</strong><br><br>首先告诉您：这不是您的错，骗子利用了您的信任和恐惧。现在最重要的是<strong>马上行动</strong>：<br><br>⚡ <strong>立即（黄金30分钟）：</strong><br>1️⃣ 拨打 <strong>110</strong> 报警<br>2️⃣ 拨打 <strong>96110</strong> 反诈专线<br>3️⃣ 联系银行申请<strong>冻结对方账户</strong><br>4️⃣ 保存通话记录和转账凭证<br><br>📌 真警察<strong>绝不会</strong>让您转账！"安全账户"根本不存在！');
+  await addActions([{label:'🚔 110报警', cls:'emergency'},{label:'📞 96110专线', cls:'phone'},{label:'🏦 银行止付', cls:'emergency'}]);
+  await new Promise(r => setTimeout(r, 4500));
+
+  // === 10. Confusion + re-explanation (困惑检测) ===
+  setInput('我还是不太理解，为什么骗子能知道我买了什么东西？');
+  await new Promise(r => setTimeout(r, 400));
+  setRisk('none');
+  await showTyping(1200);
+  await addMsg('bot', '🤔 好问题！我用简单的方式再解释一下：<br><br>骗子知道您的购物信息，通常是因为：<br>📦 <strong>快递面单泄露</strong> — 您的快递单上就有商品信息，被人拍照倒卖<br>💻 <strong>数据泄露</strong> — 购物网站或快递公司的数据被黑客偷走<br>📱 <strong>内鬼倒卖</strong> — 快递/商家内部人员偷卖客户信息<br><br>简单说：<strong>不是骗子神通广大，是您的信息被泄露了</strong>。<br>所以接到"客服"电话，一定要自己主动联系官方核实！');
+  await new Promise(r => setTimeout(r, 3500));
+
+  // === 11. Privacy protection (隐私保护) ===
+  setInput('我叫李四，身份证320102199003071234，手机13812345678，帮我查下');
+  await new Promise(r => setTimeout(r, 500));
+  setRisk('none');
+  await showTyping(1500);
+  await addMsg('bot', '🔐 <strong>隐私保护提醒</strong><br><br>⚠️ 检测到敏感信息，已自动加密保护：<br>👤 姓名：<strong>李某</strong> <span class="privacy-badge">已加密</span><br>🆔 身份证：<strong>3201**********1234</strong> <span class="privacy-badge">已加密</span><br>📱 手机号：<strong>138****5678</strong> <span class="privacy-badge">已加密</span><br><br>📌 信息已用<strong>AES-256-GCM</strong>加密，<strong>后台人员也无法查看原文</strong>。<br>📌 会话关闭后自动清除，数据库泄露也无法解密。<br><br>关于查询：未发现以您身份注册的可疑账户。建议下载<strong>国家反诈中心APP</strong>实名核验。');
+  await new Promise(r => setTimeout(r, 3500));
+
+  // === 12. Legal consultation (法律咨询) ===
+  setInput('诈骗罪的量刑标准是什么？被骗的钱能追回来吗？');
+  await new Promise(r => setTimeout(r, 500));
+  await showTyping(1300);
+  await addMsg('bot', '⚖️ <strong>反诈法律咨询</strong><br><br>📜 <strong>《刑法》第266条 · 诈骗罪：</strong><br>• 数额较大（3千-1万以上）：<strong>3年以下</strong>有期徒刑或拘役<br>• 数额巨大（3万-10万以上）：<strong>3-10年</strong>有期徒刑<br>• 数额特别巨大（50万以上）：<strong>10年以上</strong>至无期徒刑<br><br>💰 <strong>被骗资金能否追回？</strong><br>• 第一时间报警+冻结账户 → <strong>追回概率较高</strong><br>• 超过24小时 → 资金可能已被层层转移<br>• 关键：<strong>黄金止付时间30分钟内</strong>！<br><br>📌 这就是为什么发现被骗后要<strong>立刻报警</strong>的原因！');
+  await new Promise(r => setTimeout(r, 4000));
+
+  // === 13. Gamification (成就系统) ===
+  setInput('查看我的反诈成就');
+  await new Promise(r => setTimeout(r, 400));
+  await showTyping(1000);
+  await addMsg('bot', '🏆 <strong>您的反诈成就</strong><br><br>⭐ 积分：<strong>310分</strong> | 📊 等级：<strong>白银反诈先锋</strong><br>🔥 连续签到：<strong>7天</strong> | 经验值：310/500<br><br>🎖️ <strong>已获勋章(5枚)：</strong><br>🌟初识反诈 · 💬勤学好问 · 📚知识达人 · 🎮闯关新手 · 🔔举报先锋<br><br>📋 <strong>今日任务：</strong>✅ 对话咨询 · ✅ 知识学习 · ⬜ 情景模拟<br><br>💪 距<strong>黄金段位</strong>还差190经验！');
+  await new Promise(r => setTimeout(r, 3000));
+
+  // === 14. Leaderboard (排行榜) ===
+  await addMsg('bot', '👑 <strong>本周反诈排行榜 TOP 5</strong><br><br>🥇 <strong>反诈先锋王</strong> — 850分 🏆<br>🥈 <strong>安全守护者</strong> — 720分<br>🥉 <strong>防骗达人</strong> — 680分<br>4️⃣ <strong>正义使者</strong> — 550分<br>5️⃣ <strong>反诈新星</strong> — 480分<br><br>📊 您的排名：<strong>第12名</strong>（超过65%的用户）<br>🔥 连续签到7天+完成3个情景模拟可快速冲榜！');
+  await new Promise(r => setTimeout(r, 3000));
+
+  // === 15. Report submission (举报提交) ===
+  setInput('我要举报一个诈骗电话 15512345678，冒充京东客服让我取消白条');
+  await new Promise(r => setTimeout(r, 500));
+  await showTyping(1200);
+  await addMsg('bot', '📢 <strong>举报已受理！</strong><br><br>📋 <strong>举报详情：</strong><br>• 类型：冒充客服诈骗（京东白条）<br>• 号码：155****5678 <span class="privacy-badge">已脱敏</span><br>• 状态：<strong>已提交至反诈中心</strong><br><br>✅ <strong>您获得了"正义举报"勋章 +20积分！</strong><br><br>📌 该号码将被纳入反诈数据库，帮助更多人避免受骗。感谢您的举报！🛡️');
+  await new Promise(r => setTimeout(r, 3000));
+
+  // === 16. LLM enhanced response (LLM增强) ===
+  setInput('感觉AI回答挺智能的，背后是怎么做到的？');
+  await new Promise(r => setTimeout(r, 400));
+  await showTyping(1300);
+  await addMsg('bot', '🤖 <strong>混合智能引擎</strong><br><br>本系统采用<strong>规则引擎 + LLM大模型</strong>双驱动架构：<br><br>⚡ <strong>规则引擎</strong> — 紧急场景毫秒级响应（如"正在转账"），100%可用<br>🧠 <strong>LLM大模型</strong> — 支持DeepSeek/OpenAI/Qwen，增强回复的自然度和温度<br><br>🔄 <strong>智能降级：</strong>LLM不可用时自动切换纯规则引擎，核心功能不受影响<br>🔐 <strong>隐私优先：</strong>PII信息在发送LLM前已脱敏处理<br><br>简单说：<strong>确定性场景用规则（快+准），开放性对话用LLM（暖+智）</strong>');
+  await new Promise(r => setTimeout(r, 3500));
+
+  // === 17. Knowledge graph (知识图谱) ===
+  setInput('刷单诈骗和杀猪盘有什么关联？');
+  await new Promise(r => setTimeout(r, 400));
+  await showTyping(1500);
+  await addMsg('bot', '🕸️ <strong>诈骗知识图谱 · 关联分析</strong><br><br>刷单→杀猪盘存在<strong>演化升级</strong>关系：<br><br>📌 <strong>刷单返利</strong>（入门骗局）<br>  └↳ 受害人尝到甜头后被诱导下载虚假投资APP<br>  └↳ <strong>升级为 → 虚假投资/杀猪盘</strong>（高额骗局）<br><br>🔗 <strong>共享手法：</strong>先给甜头再收割 · 虚假平台展示假数据 · 都针对25-45岁群体<br>⚡ <strong>伴随风险：</strong>信息泄露 → 冒充客服二次诈骗<br><br>🛡️ <strong>防范：</strong>拒绝"先垫付""先充值"，下载APP认准官方应用商店！');
+  await new Promise(r => setTimeout(r, 4000));
+
+  // === 18. Summary ===
+  setRisk('none');
+  setInput('');
+  await addMsg('bot', '🎉 <strong>以上演示了反诈卫士的完整能力：</strong><br><br>✅ 意图识别(14种) · ✅ 风险分析(13规则4等级) · ✅ 自检诊断<br>✅ 情景模拟训练 · ✅ 老年人模式 · ✅ 恐惧安抚<br>✅ 困惑重解释 · ✅ URL安全分析 · ✅ 隐私保护(7类PII)<br>✅ 法律咨询 · ✅ 举报提交 · ✅ 游戏化成就<br>✅ 排行榜 · ✅ 知识图谱 · ✅ LLM增强对话<br>✅ Docker部署 · ✅ 7×24小时在线 · ✅ 优雅降级<br><br>🛡️ <strong>反诈卫士 — 用AI守护每一个人的钱袋子</strong><br>15个核心模块 · 7100+行代码 · 完整前后端实现');
+  await new Promise(r => setTimeout(r, 6000));
+  window.__demoDone = true;
+}
+
+// Start
+runDemo();
+</script>
+</body>
+</html>

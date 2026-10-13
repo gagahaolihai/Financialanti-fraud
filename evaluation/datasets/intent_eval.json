@@ -1,0 +1,93 @@
+{
+  "metadata": {
+    "name": "意图分类评测集",
+    "description": "用于评测语义意图分类器（SemanticIntentClassifier）的准确率与混淆情况。样本与训练锚点 INTENT_ANCHORS 不重复，贴近真实口语表达。",
+    "classes": 14,
+    "note": "每条样本标注唯一意图标签"
+  },
+  "samples": [
+    {"text": "你好啊", "intent": "greetings"},
+    {"text": "在不在", "intent": "greetings"},
+    {"text": "早上好", "intent": "greetings"},
+    {"text": "嗨，我来了", "intent": "greetings"},
+    {"text": "您好，我想咨询一下", "intent": "greetings"},
+
+    {"text": "我需要帮忙", "intent": "help_requests"},
+    {"text": "快帮帮我吧", "intent": "help_requests"},
+    {"text": "有件事想请你帮忙", "intent": "help_requests"},
+    {"text": "我遇到麻烦了，求帮助", "intent": "help_requests"},
+    {"text": "能不能帮我看看", "intent": "help_requests"},
+
+    {"text": "我要举报这个号码", "intent": "report_intents"},
+    {"text": "帮我举报一个骗子", "intent": "report_intents"},
+    {"text": "这个链接我要投诉", "intent": "report_intents"},
+    {"text": "我想举报一个诈骗网站", "intent": "report_intents"},
+    {"text": "举报一个可疑电话", "intent": "report_intents"},
+
+    {"text": "讲一下杀猪盘是什么", "intent": "knowledge_queries"},
+    {"text": "给我说说贷款诈骗", "intent": "knowledge_queries"},
+    {"text": "我想了解一下反诈知识", "intent": "knowledge_queries"},
+    {"text": "解释一下刷单骗局", "intent": "knowledge_queries"},
+    {"text": "什么是冒充客服诈骗", "intent": "knowledge_queries"},
+
+    {"text": "我想玩防骗闯关", "intent": "scenario_requests"},
+    {"text": "来个情景训练", "intent": "scenario_requests"},
+    {"text": "我想练习一下识别骗局", "intent": "scenario_requests"},
+    {"text": "有没有模拟诈骗的场景", "intent": "scenario_requests"},
+    {"text": "开始情景模拟", "intent": "scenario_requests"},
+
+    {"text": "你帮我看看这个是不是骗子", "intent": "self_check"},
+    {"text": "我遇到的事是不是诈骗", "intent": "self_check"},
+    {"text": "这个网站靠不靠谱", "intent": "self_check"},
+    {"text": "我怀疑我被骗了", "intent": "self_check"},
+    {"text": "帮我判断一下这个情况", "intent": "self_check"},
+
+    {"text": "网络贷款诈骗是怎么操作的", "intent": "fraud_inquiry"},
+    {"text": "快递引流是什么套路", "intent": "fraud_inquiry"},
+    {"text": "虚拟币诈骗怎么回事", "intent": "fraud_inquiry"},
+    {"text": "机票退改签骗局怎么骗人", "intent": "fraud_inquiry"},
+    {"text": "培训退费诈骗是什么", "intent": "fraud_inquiry"},
+
+    {"text": "诈骗多少钱能立案", "intent": "legal_queries"},
+    {"text": "帮信罪判几年", "intent": "legal_queries"},
+    {"text": "反电信网络诈骗法讲了啥", "intent": "legal_queries"},
+    {"text": "出借银行卡犯法吗", "intent": "legal_queries"},
+    {"text": "诈骗罪量刑标准", "intent": "legal_queries"},
+
+    {"text": "我已经把钱转过去了", "intent": "emergency"},
+    {"text": "我刚给对方转了五万", "intent": "emergency"},
+    {"text": "快，我正在给骗子转钱", "intent": "emergency"},
+    {"text": "我的卡被盗刷了", "intent": "emergency"},
+    {"text": "我泄露了银行卡密码", "intent": "emergency"},
+
+    {"text": "有个陌生人在微信上加我", "intent": "describe_situation"},
+    {"text": "我接到一个自称是警察的电话", "intent": "describe_situation"},
+    {"text": "有人在群里发了个兼职链接", "intent": "describe_situation"},
+    {"text": "对方让我下载一个软件", "intent": "describe_situation"},
+    {"text": "有个人说可以带我赚钱", "intent": "describe_situation"},
+
+    {"text": "你说的我不太明白", "intent": "confusion"},
+    {"text": "能说得简单点吗", "intent": "confusion"},
+    {"text": "我没听懂", "intent": "confusion"},
+    {"text": "这是什么意思啊", "intent": "confusion"},
+    {"text": "太绕了，说人话", "intent": "confusion"},
+
+    {"text": "我好害怕", "intent": "fear_anxiety"},
+    {"text": "我心里特别慌", "intent": "fear_anxiety"},
+    {"text": "担心我的钱没了", "intent": "fear_anxiety"},
+    {"text": "我紧张得不行", "intent": "fear_anxiety"},
+    {"text": "吓死我了怎么办", "intent": "fear_anxiety"},
+
+    {"text": "我今年七十了", "intent": "elderly_identity"},
+    {"text": "我是个老人，不太会弄", "intent": "elderly_identity"},
+    {"text": "我岁数大了", "intent": "elderly_identity"},
+    {"text": "我退休在家", "intent": "elderly_identity"},
+    {"text": "老年人容易被骗吗", "intent": "elderly_identity"},
+
+    {"text": "谢谢啦", "intent": "thanks"},
+    {"text": "多谢你", "intent": "thanks"},
+    {"text": "太感谢你了", "intent": "thanks"},
+    {"text": "感谢感谢", "intent": "thanks"},
+    {"text": "你真好，谢谢", "intent": "thanks"}
+  ]
+}

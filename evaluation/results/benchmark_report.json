@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-10-10T09:17:30",
+  "model_load_seconds": 10.269,
+  "model_available": true,
+  "encode_single_ms": 30.44,
+  "encode_single_p95_ms": 73.96,
+  "batch_size": 64,
+  "batch_total_ms": 185.58,
+  "throughput_per_sec": 344.9,
+  "retrieval_ms": 64.6,
+  "e2e_ms": 2.23,
+  "e2e_p95_ms": 1.81,
+  "e2e_qps": 448.4
+}

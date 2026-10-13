@@ -1,0 +1,19 @@
+{
+  "name": "反诈卫士 - 智能反诈对话系统",
+  "short_name": "反诈卫士",
+  "description": "AI驱动的多模态反诈对话系统，提供反诈知识普及、风险劝阻、可疑举报等服务",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#1a73e8",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/static/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["education", "utilities"],
+  "lang": "zh-CN"
+}

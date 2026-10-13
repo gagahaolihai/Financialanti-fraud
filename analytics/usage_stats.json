@@ -1,0 +1,79 @@
+{
+  "total_users": 167,
+  "active_users": 164,
+  "active_rate": 98.2,
+  "total_conversations": 190,
+  "avg_conversations": 1.14,
+  "total_risk_identifications": 41,
+  "risk_user_count": 17,
+  "risk_user_rate": 10.2,
+  "total_reports": 37,
+  "total_self_checks": 0,
+  "total_scenarios_completed": 12,
+  "total_knowledge_learned": 6,
+  "total_points": 3738,
+  "total_active_days": 168,
+  "avg_active_days": 1.01,
+  "first_active": "2026-05-27",
+  "last_active": "2026-10-09",
+  "badges_distribution": {
+    "first_chat": 90,
+    "report_first": 36,
+    "first_risk_avoid": 15,
+    "scenario_beginner": 12,
+    "law_learner": 3,
+    "chat_10": 3
+  },
+  "top_users": [
+    {
+      "user_id": "07b28931",
+      "points": 155,
+      "conversations": 8
+    },
+    {
+      "user_id": "ca0af066",
+      "points": 155,
+      "conversations": 4
+    },
+    {
+      "user_id": "c4a214eb",
+      "points": 150,
+      "conversations": 3
+    },
+    {
+      "user_id": "6eba8463",
+      "points": 130,
+      "conversations": 11
+    },
+    {
+      "user_id": "final_test",
+      "points": 116,
+      "conversations": 3
+    },
+    {
+      "user_id": "1c735ae5",
+      "points": 100,
+      "conversations": 3
+    },
+    {
+      "user_id": "44d84c4f",
+      "points": 100,
+      "conversations": 10
+    },
+    {
+      "user_id": "5240b912",
+      "points": 100,
+      "conversations": 3
+    },
+    {
+      "user_id": "7b492391",
+      "points": 100,
+      "conversations": 10
+    },
+    {
+      "user_id": "test_prog",
+      "points": 90,
+      "conversations": 0
+    }
+  ]
+}

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>反诈卫士 - 管理后台</title>
+  <style>
+    :root {
+      --primary: #1a73e8; --danger: #d93025; --success: #1e8e3e;
+      --bg: #f8f9fa; --card: #fff; --text: #202124; --text-secondary: #5f6368;
+      --border: #dadce0; --shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+           background: var(--bg); color: var(--text); }
+    .header { background: linear-gradient(135deg, #1a1a2e, #16213e); color: #fff;
+              padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { font-size: 18px; }
+    .header span { font-size: 12px; opacity: 0.7; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                  gap: 16px; margin-bottom: 24px; }
+    .stat-card { background: var(--card); border-radius: 12px; padding: 20px;
+                 box-shadow: var(--shadow); }
+    .stat-card .label { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+    .stat-card .value { font-size: 28px; font-weight: 700; }
+    .stat-card .sub { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+    .panel { background: var(--card); border-radius: 12px; padding: 24px;
+             box-shadow: var(--shadow); margin-bottom: 24px; }
+    .panel h2 { font-size: 16px; margin-bottom: 16px; display: flex; justify-content: space-between; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { font-weight: 600; color: var(--text-secondary); font-size: 11px; text-transform: uppercase; }
+    td { font-size: 13px; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
+    .badge-danger { background: #fce8e6; color: var(--danger); }
+    .badge-warning { background: #fef7e0; color: #f9ab00; }
+    .badge-success { background: #e6f4ea; color: var(--success); }
+    .badge-info { background: #e8f0fe; color: var(--primary); }
+    .chart-bar { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+    .chart-bar .bar { height: 20px; background: var(--primary); border-radius: 4px;
+                      transition: width 0.3s; min-width: 4px; }
+    .chart-bar .label { width: 100px; font-size: 12px; }
+    .chart-bar .val { font-size: 11px; color: var(--text-secondary); min-width: 40px; }
+    .tab-bar { display: flex; gap: 0; margin-bottom: 24px; background: var(--card);
+               border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+    .tab-btn { flex: 1; padding: 14px; border: none; background: none; cursor: pointer;
+               font-size: 13px; font-weight: 500; transition: all 0.2s; }
+    .tab-btn:hover { background: var(--bg); }
+    .tab-btn.active { background: var(--primary); color: #fff; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .loading { text-align: center; padding: 40px; color: var(--text-secondary); }
+    .security-check { display: flex; justify-content: space-between; padding: 12px;
+                     border-bottom: 1px solid var(--border); font-size: 13px; }
+    .security-check:last-child { border-bottom: none; }
+    .pass { color: var(--success); } .fail { color: var(--danger); } .warn { color: #f9ab00; }
+
+    /* 外部大模型接入卡片 */
+    .llm-status { display: flex; align-items: center; gap: 10px; padding: 12px 14px;
+                  border-radius: 8px; background: var(--bg); margin-bottom: 16px; font-size: 13px; }
+    .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .dot-local { background: var(--success); }
+    .dot-enhanced { background: var(--primary); }
+    .dot-off { background: var(--text-secondary); }
+    .llm-form { display: grid; grid-template-columns: 110px 1fr; gap: 10px 12px;
+                align-items: center; max-width: 720px; }
+    .llm-form label { font-size: 12px; color: var(--text-secondary); }
+    .llm-form input, .llm-form select {
+      padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font-size: 13px; font-family: inherit; width: 100%; }
+    .llm-form input:focus, .llm-form select:focus { outline: 2px solid var(--primary); border-color: transparent; }
+    .llm-actions { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+    .btn { padding: 9px 18px; border: none; border-radius: 6px; font-size: 13px;
+           font-family: inherit; cursor: pointer; font-weight: 500; transition: opacity .2s; }
+    .btn:hover { opacity: 0.88; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .llm-hint { font-size: 12px; color: var(--text-secondary); margin-top: 8px; line-height: 1.7; }
+    .llm-result { margin-top: 14px; padding: 10px 14px; border-radius: 8px; font-size: 13px;
+                  display: none; white-space: pre-wrap; word-break: break-all; }
+    .llm-result.show { display: block; }
+    .llm-result.ok { background: #e6f4ea; color: #146c2e; }
+    .llm-result.err { background: #fce8e6; color: #a50e0e; }
+    @media (max-width: 768px) {
+      .container { padding: 12px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      table { font-size: 12px; }
+      th, td { padding: 6px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div><h1>🛡️ 反诈卫士 管理后台</h1></div>
+    <div><span id="version">v2.1</span> | <span id="login-info">加载中...</span></div>
+  </div>
+  <div class="container">
+    <!-- Tab Bar -->
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="overview">📊 概览</button>
+      <button class="tab-btn" data-tab="security">🔒 安全检查</button>
+      <button class="tab-btn" data-tab="users">👥 用户</button>
+      <button class="tab-btn" data-tab="knowledge">📚 知识库</button>
+      <button class="tab-btn" data-tab="settings">⚙️ 配置</button>
+    </div>
+
+    <!-- Overview Tab -->
+    <div id="tab-overview" class="tab-content active">
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card"><div class="label">💬 总对话数</div><div class="value" id="stat-convs">-</div></div>
+        <div class="stat-card"><div class="label">👤 活跃用户</div><div class="value" id="stat-users">-</div></div>
+        <div class="stat-card"><div class="label">📢 举报总数</div><div class="value" id="stat-reports">-</div></div>
+        <div class="stat-card"><div class="label">🚨 风险事件</div><div class="value" id="stat-risks">-</div><div class="sub" id="stat-high-risks"></div></div>
+      </div>
+
+      <div class="panel">
+        <h2>📈 近7日趋势</h2>
+        <div id="daily-chart"></div>
+      </div>
+
+      <div class="panel">
+        <h2>🛡️ 安全状态</h2>
+        <div id="security-summary"></div>
+      </div>
+    </div>
+
+    <!-- Security Tab -->
+    <div id="tab-security" class="tab-content">
+      <div class="panel">
+        <h2>🔒 系统安全检查清单</h2>
+        <div id="security-checks"></div>
+      </div>
+      <div class="panel">
+        <h2>⚡ 混合云部署配置</h2>
+        <div id="cloud-config"></div>
+      </div>
+    </div>
+
+    <!-- Users Tab -->
+    <div id="tab-users" class="tab-content">
+      <div class="panel">
+        <h2>👥 用户排行榜</h2>
+        <table><thead><tr><th>排名</th><th>用户ID</th><th>等级</th><th>积分</th><th>勋章</th><th>对话</th><th>举报</th></tr></thead>
+        <tbody id="user-table-body"><tr><td colspan="7" class="loading">加载中...</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- Knowledge Tab -->
+    <div id="tab-knowledge" class="tab-content">
+      <div class="panel">
+        <h2>📚 知识库概览 <span id="fraud-count" style="font-size:12px;font-weight:400;color:var(--text-secondary);"></span></h2>
+        <div id="knowledge-list"></div>
+      </div>
+      <div class="panel">
+        <h2>🔗 知识图谱</h2>
+        <div id="graph-info"></div>
+        <div id="graph-viz" style="width:100%;height:400px;background:var(--bg);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);">
+          需要安装 networkx 库以启用知识图谱可视化
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div id="tab-settings" class="tab-content">
+      <div class="panel">
+        <h2>🌐 外部大模型接入 <span id="llm-mode-badge"></span></h2>
+
+        <div class="llm-status">
+          <span class="dot" id="llm-dot"></span>
+          <span id="llm-status-text">加载中...</span>
+        </div>
+
+        <div class="llm-form">
+          <label for="llm-provider">厂商预设</label>
+          <select id="llm-provider" onchange="onProviderChange()"></select>
+
+          <label for="llm-url">API 地址</label>
+          <input type="text" id="llm-url" placeholder="https://api.deepseek.com/v1" autocomplete="off">
+
+          <label for="llm-model">模型名称</label>
+          <input type="text" id="llm-model" placeholder="deepseek-chat" autocomplete="off">
+
+          <label for="llm-key">API Key</label>
+          <input type="password" id="llm-key" placeholder="留空表示沿用已保存的 Key" autocomplete="new-password">
+        </div>
+
+        <div class="llm-hint">
+          · <b>默认不接入任何外部 API</b>：本地模式使用项目内置的语义模型 + 规则引擎，零联网、数据不出本机。<br>
+          · 接入外部大模型后，仅<b>知识咨询类</b>复杂问题会走大模型增强，其余仍由本地规则引擎处理。<br>
+          · API Key 加密存储于本机 <code>data/llm_config.json</code>，界面只回显掩码。
+        </div>
+
+        <div class="llm-actions">
+          <button class="btn btn-secondary" id="btn-llm-test" onclick="testLLM()">🔍 测试连通</button>
+          <button class="btn btn-primary" id="btn-llm-save" onclick="saveLLM()">💾 保存并启用</button>
+          <button class="btn btn-danger" id="btn-llm-disable" onclick="disableLLM()">⛔ 关闭，回到本地模式</button>
+        </div>
+
+        <div class="llm-result" id="llm-result"></div>
+      </div>
+
+      <div class="panel">
+        <h2>⚙️ 系统配置</h2>
+        <table><thead><tr><th>配置项</th><th>值</th><th>状态</th></tr></thead>
+        <tbody id="settings-body"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = '/api/admin';
+
+    // Tab切换
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    async function fetchAPI(path) {
+      const res = await fetch(API_BASE + path);
+      if (!res.ok) throw new Error('API error');
+      return res.json();
+    }
+
+    // 加载概览
+    async function loadOverview() {
+      try {
+        const stats = await fetchAPI('/stats');
+        document.getElementById('stat-convs').textContent = stats.total_conversations?.toLocaleString() || 0;
+        document.getElementById('stat-users').textContent = stats.total_users || 0;
+        document.getElementById('stat-reports').textContent = stats.total_reports || 0;
+        document.getElementById('stat-risks').textContent = stats.total_risk_events || 0;
+        document.getElementById('stat-high-risks').textContent = `高危: ${stats.high_risk_events || 0}`;
+
+        // 每日趋势
+        const daily = stats.daily_stats || [];
+        const chart = document.getElementById('daily-chart');
+        if (daily.length) {
+          const maxConv = Math.max(...daily.map(d => d.conversations), 1);
+          chart.innerHTML = daily.map(d => `
+            <div class="chart-bar">
+              <span class="label">${d.date.slice(5)}</span>
+              <div class="bar" style="width:${(d.conversations/maxConv*100).toFixed(1)}%"></div>
+              <span class="val">${d.conversations}条</span>
+            </div>
+          `).join('');
+        } else {
+          chart.innerHTML = '<div style="color:var(--text-secondary);font-size:13px;">暂无数据</div>';
+        }
+
+        // 安全摘要
+        const sec = stats.security_status || {};
+        const secSummary = document.getElementById('security-summary');
+        const checks = [
+          {label: '数据加密', pass: sec.data_encryption, desc: 'AES-256-GCM'},
+          {label: '速率限制', pass: sec.rate_limiting, desc: `${stats.settings?.RATE_LIMIT_PER_MINUTE || '?'}/min`},
+          {label: 'CORS 配置', pass: sec.cors_configured, desc: stats.settings?.CORS_ORIGINS || '*'},
+          {label: '审计日志', pass: sec.audit_log_enabled, desc: ''},
+        ];
+        secSummary.innerHTML = checks.map(c =>
+          `<div class="security-check"><span>${c.pass ? '✅' : '❌'} ${c.label}</span><span>${c.desc}</span></div>`
+        ).join('');
+      } catch(e) {
+        document.querySelector('#tab-overview .loading') && (document.querySelector('#tab-overview .loading').textContent = '加载失败');
+      }
+    }
+
+    // 加载安全检查
+    async function loadSecurity() {
+      try {
+        const checks = await fetchAPI('/security-checks');
+        const container = document.getElementById('security-checks');
+        container.innerHTML = checks.map(c =>
+          `<div class="security-check">
+            <span>${c.pass ? '✅' : c.warn ? '⚠️' : '❌'} ${c.name}</span>
+            <span style="color:${c.pass ? 'var(--success)' : c.warn ? '#f9ab00' : 'var(--danger)'}">${c.status}</span>
+          </div>`
+        ).join('') || '<div class="loading">暂无安全检查数据</div>';
+
+        // 混合云配置
+        const cloud = await fetchAPI('/cloud-config');
+        document.getElementById('cloud-config').innerHTML = cloud.map(c =>
+          `<div class="security-check"><span>${c.icon} ${c.name}</span><span>${c.value}</span></div>`
+        ).join('');
+      } catch(e) {
+        document.getElementById('security-checks').innerHTML = '<div class="loading">加载失败</div>';
+      }
+    }
+
+    // 加载用户
+    async function loadUsers() {
+      try {
+        const data = await fetchAPI('/users');
+        const tbody = document.getElementById('user-table-body');
+        if (data.leaderboard?.length) {
+          tbody.innerHTML = data.leaderboard.map((u, i) => `
+            <tr>
+              <td>${i+1}</td>
+              <td>${u.user_id}</td>
+              <td><span class="badge badge-info">Lv.${u.level_num} ${u.level}</span></td>
+              <td>${u.points}</td>
+              <td>${u.badges || 0}</td>
+              <td>${u.conversations || '-'}</td>
+              <td>${u.reports || '-'}</td>
+            </tr>
+          `).join('');
+        } else {
+          tbody.innerHTML = '<tr><td colspan="7" class="loading">暂无用户数据</td></tr>';
+        }
+      } catch(e) {
+        document.getElementById('user-table-body').innerHTML = '<tr><td colspan="7" class="loading">加载失败</td></tr>';
+      }
+    }
+
+    // 加载知识库
+    async function loadKnowledge() {
+      try {
+        const data = await fetchAPI('/knowledge');
+        const frauds = data.fraud_types || [];
+        document.getElementById('fraud-count').textContent = `(共 ${frauds.length} 种)`;
+        document.getElementById('knowledge-list').innerHTML = frauds.map(f =>
+          `<div class="security-check">
+            <span>${f.id} <span class="badge ${f.risk_level === 'critical' ? 'badge-danger' : f.risk_level === 'high' ? 'badge-warning' : 'badge-info'}">${f.risk_level}</span></span>
+            <span>案例: ${f.total_cases || 0} | 手法: ${f.total_patterns || 0}</span>
+          </div>`
+        ).join('') || '<div class="loading">知识库为空</div>';
+
+        const graph = data.graph_stats || {};
+        document.getElementById('graph-info').innerHTML = graph.built
+          ? `<div class="security-check"><span>📊 ${graph.nodes} 个实体, ${graph.edges} 条关系</span><span>密度: ${graph.density}</span></div>`
+          : '<div class="security-check"><span>知识图谱未启用</span><span>需要 pip install networkx</span></div>';
+      } catch(e) {}
+    }
+
+    // 加载配置
+    async function loadSettings() {
+      try {
+        const data = await fetchAPI('/settings');
+        document.getElementById('settings-body').innerHTML = Object.entries(data).map(([k, v]) =>
+          `<tr><td>${k}</td><td style="font-family:monospace;font-size:12px;">${typeof v === 'string' && v.length > 40 ? v.slice(0,40)+'...' : JSON.stringify(v)}</td>
+           <td><span class="badge badge-success">✓</span></td></tr>`
+        ).join('');
+      } catch(e) {}
+    }
+
+    // ---------- 外部大模型接入 ----------
+    let LLM_PROVIDERS = [];
+
+    function showLLMResult(ok, msg) {
+      const el = document.getElementById('llm-result');
+      el.className = 'llm-result show ' + (ok ? 'ok' : 'err');
+      el.textContent = msg;
+    }
+
+    function setLLMBusy(busy) {
+      ['btn-llm-test', 'btn-llm-save', 'btn-llm-disable'].forEach(id => {
+        document.getElementById(id).disabled = busy;
+      });
+    }
+
+    async function postAPI(path, body) {
+      const res = await fetch(API_BASE + path, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body || {})
+      });
+      let data = {};
+      try { data = await res.json(); } catch (e) { /* 非 JSON 响应 */ }
+      return { ok: res.ok, status: res.status, data };
+    }
+
+    function renderLLMStatus(cfg) {
+      const dot = document.getElementById('llm-dot');
+      const text = document.getElementById('llm-status-text');
+      const badge = document.getElementById('llm-mode-badge');
+
+      if (cfg.safe_mode) {
+        dot.className = 'dot dot-off';
+        text.textContent = 'SAFE_MODE 已开启（纯规则引擎兜底），接入外部 API 前请先在 .env 中关闭';
+        badge.innerHTML = '<span class="badge badge-warning">兜底模式</span>';
+      } else if (cfg.active) {
+        dot.className = 'dot dot-enhanced';
+        text.textContent = `已接入外部大模型 · ${cfg.provider} / ${cfg.model}　（知识咨询类问题将走大模型增强）`;
+        badge.innerHTML = '<span class="badge badge-info">增强模式</span>';
+      } else {
+        dot.className = 'dot dot-local';
+        text.textContent = '本地模式 · 内置语义模型 + 规则引擎，零联网，数据不出本机';
+        badge.innerHTML = '<span class="badge badge-success">本地模式</span>';
+      }
+    }
+
+    async function loadLLMConfig() {
+      try {
+        const cfg = await fetchAPI('/llm/config');
+        LLM_PROVIDERS = cfg.providers || [];
+
+        const sel = document.getElementById('llm-provider');
+        sel.innerHTML = LLM_PROVIDERS.map(p =>
+          `<option value="${p.key}">${p.key}</option>`).join('')
+          + '<option value="custom">custom（自定义）</option>';
+        sel.value = LLM_PROVIDERS.some(p => p.key === cfg.provider) ? cfg.provider : 'custom';
+
+        document.getElementById('llm-url').value = cfg.api_url || '';
+        document.getElementById('llm-model').value = cfg.model || '';
+        document.getElementById('llm-key').placeholder =
+          cfg.has_api_key ? `已保存：${cfg.api_key_masked}（留空则沿用）` : '未配置';
+
+        renderLLMStatus(cfg);
+      } catch (e) {
+        document.getElementById('llm-status-text').textContent = '配置读取失败：' + e.message;
+      }
+    }
+
+    function onProviderChange() {
+      const key = document.getElementById('llm-provider').value;
+      const p = LLM_PROVIDERS.find(x => x.key === key);
+      // custom 时保留用户已填内容，便于接自建/中转网关
+      if (p) {
+        document.getElementById('llm-url').value = p.url || '';
+        document.getElementById('llm-model').value = p.model || '';
+      }
+    }
+
+    function llmFormBody() {
+      return {
+        provider: document.getElementById('llm-provider').value,
+        api_url: document.getElementById('llm-url').value.trim(),
+        model: document.getElementById('llm-model').value.trim(),
+        api_key: document.getElementById('llm-key').value.trim()
+      };
+    }
+
+    async function testLLM() {
+      setLLMBusy(true);
+      try {
+        // 用表单里的「未保存」配置直接探测，便于保存前先验证填得对不对
+        const r = await postAPI('/llm/test', llmFormBody());
+        showLLMResult(r.ok, r.ok
+          ? '✅ ' + (r.data.message || '连接成功')
+          : '❌ 连接失败：' + (r.data.error || `HTTP ${r.status}`));
+      } catch (e) {
+        showLLMResult(false, '❌ 请求异常：' + e.message);
+      } finally {
+        setLLMBusy(false);
+      }
+    }
+
+    async function saveLLM() {
+      setLLMBusy(true);
+      try {
+        const r = await postAPI('/llm/config', llmFormBody());
+        if (r.ok) {
+          showLLMResult(true, '✅ 已保存并启用，无需重启即已生效。');
+          document.getElementById('llm-key').value = '';
+          await loadLLMConfig();
+        } else {
+          showLLMResult(false, '❌ 保存失败：' + (r.data.error || `HTTP ${r.status}`));
+        }
+      } catch (e) {
+        showLLMResult(false, '❌ 请求异常：' + e.message);
+      } finally {
+        setLLMBusy(false);
+      }
+    }
+
+    async function disableLLM() {
+      setLLMBusy(true);
+      try {
+        const r = await postAPI('/llm/disable', {});
+        if (r.ok) {
+          showLLMResult(true, '✅ 已关闭外部 API，回到纯本地模式。');
+          await loadLLMConfig();
+        } else {
+          showLLMResult(false, '❌ 操作失败：' + (r.data.error || `HTTP ${r.status}`));
+        }
+      } catch (e) {
+        showLLMResult(false, '❌ 请求异常：' + e.message);
+      } finally {
+        setLLMBusy(false);
+      }
+    }
+
+    // 初始化
+    loadOverview();
+    loadSecurity();
+    loadUsers();
+    loadKnowledge();
+    loadSettings();
+    loadLLMConfig();
+    // 每30秒刷新概览
+    setInterval(loadOverview, 30000);
+  </script>
+</body>
+</html>

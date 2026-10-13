@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1280, initial-scale=1.0">
+<title>反诈卫士 - 演示</title>
+<style>
+:root {
+  --primary: #1a73e8;
+  --primary-dark: #1557b0;
+  --danger: #d93025;
+  --danger-light: #fce8e6;
+  --warning: #f9ab00;
+  --success: #1e8e3e;
+  --bg: #f0f2f5;
+  --card: #ffffff;
+  --text: #202124;
+  --text-secondary: #5f6368;
+  --border: #dadce0;
+  --radius: 12px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+  background: #1a1a2e;
+  width: 1280px; height: 720px;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Slide container */
+.slide { display: none; width: 1280px; height: 720px; position: relative; overflow: hidden; }
+.slide.active { display: block; animation: fadeIn 0.6s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes typeIn { from { width: 0; } to { width: 100%; } }
+
+/* Title slide */
+.slide-title { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); text-align: center; }
+.title-badge { background: rgba(26,115,232,0.2); border: 2px solid var(--primary); border-radius: 50px; padding: 10px 30px; color: #4da3ff; font-size: 16px; display: inline-block; margin-top: 60px; }
+.title-main { color: white; font-size: 52px; font-weight: 800; margin-top: 30px; }
+.title-sub { color: #8ab4f8; font-size: 22px; margin-top: 15px; }
+.title-icons { margin-top: 50px; font-size: 60px; letter-spacing: 30px; }
+.title-bottom { color: #666; font-size: 14px; margin-top: 60px; }
+
+/* Chat slide */
+.slide-chat { background: #f0f2f5; display: flex; }
+.chat-sidebar { width: 280px; background: #1e1e2e; color: white; padding: 20px; flex-shrink: 0; }
+.sidebar-logo { font-size: 22px; font-weight: 700; margin-bottom: 25px; }
+.sidebar-item { padding: 10px 12px; border-radius: 8px; margin-bottom: 5px; color: #aaa; font-size: 14px; cursor: pointer; }
+.sidebar-item.active { background: rgba(26,115,232,0.25); color: #4da3ff; }
+.chat-main { flex: 1; display: flex; flex-direction: column; }
+.chat-header { background: white; padding: 16px 24px; border-bottom: 1px solid var(--border); font-size: 18px; font-weight: 600; }
+.chat-messages { flex: 1; padding: 20px 24px; overflow-y: hidden; display: flex; flex-direction: column; gap: 12px; }
+.chat-msg { max-width: 80%; padding: 12px 16px; border-radius: 12px; font-size: 15px; line-height: 1.6; opacity: 0; animation: slideUp 0.4s forwards; }
+.chat-msg.user { align-self: flex-end; background: var(--primary); color: white; border-bottom-right-radius: 4px; }
+.chat-msg.bot { align-self: flex-start; background: white; color: var(--text); border-bottom-left-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.chat-input-area { background: white; padding: 16px 24px; border-top: 1px solid var(--border); display: flex; gap: 12px; }
+.chat-input { flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: 24px; font-size: 14px; outline: none; }
+.chat-send { padding: 10px 24px; background: var(--primary); color: white; border: none; border-radius: 24px; font-size: 14px; cursor: pointer; }
+
+/* Risk badge */
+.risk-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.risk-critical { background: #fce8e6; color: #c5221f; }
+.risk-high { background: #fce8e6; color: #d93025; }
+.privacy-tag { background: #e8f5e9; color: #1e8e3e; padding: 2px 8px; border-radius: 4px; font-size: 12px; }
+.action-btn { display: inline-block; padding: 8px 16px; border: 1px solid var(--primary); color: var(--primary); border-radius: 20px; font-size: 13px; margin: 4px; background: white; }
+
+/* Feature slides */
+.slide-feature { background: white; flex-direction: column; align-items: center; justify-content: center; padding: 60px; text-align: center; }
+.feature-icon { font-size: 72px; margin-bottom: 20px; }
+.feature-title { font-size: 36px; font-weight: 700; color: var(--text); margin-bottom: 15px; }
+.feature-desc { font-size: 18px; color: var(--text-secondary); line-height: 1.8; max-width: 800px; }
+.feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; width: 100%; max-width: 900px; }
+.feature-card { background: #f8f9fa; padding: 24px; border-radius: 12px; text-align: center; }
+.feature-card .icon { font-size: 40px; margin-bottom: 10px; }
+.feature-card .title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+.feature-card .desc { font-size: 13px; color: var(--text-secondary); }
+
+/* Architecture slide */
+.slide-arch { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; flex-direction: column; padding: 40px 80px; }
+.arch-title { font-size: 32px; font-weight: 700; margin-bottom: 30px; }
+.arch-layers { width: 100%; }
+.arch-layer { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 16px 24px; margin-bottom: 12px; }
+.arch-layer .layer-name { font-size: 13px; color: #4da3ff; margin-bottom: 6px; font-weight: 600; }
+.arch-layer .layer-items { font-size: 13px; color: #aaa; }
+.code-block { background: #0d1117; color: #58a6ff; padding: 16px 24px; border-radius: 8px; font-family: Consolas, monospace; font-size: 13px; margin-top: 20px; }
+
+/* Outro slide */
+.slide-outro { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); text-align: center; color: white; }
+.outro-thanks { font-size: 48px; font-weight: 800; margin-top: 200px; }
+.outro-sub { font-size: 20px; color: #8ab4f8; margin-top: 15px; }
+.outro-contact { font-size: 15px; color: #666; margin-top: 40px; }
+
+/* Progress bar */
+.progress-bar { position: fixed; bottom: 0; left: 0; height: 3px; background: var(--primary); z-index: 100; transition: width 0.3s; }
+.step-indicator { position: fixed; top: 20px; right: 30px; color: rgba(255,255,255,0.5); font-size: 13px; z-index: 100; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+<div class="step-indicator" id="stepIndicator">1/12</div>
+
+<!-- Slide 1: Title -->
+<div class="slide slide-title active" id="slide1">
+  <div class="title-badge">RAICOM 睿抗机器人开发者大赛 参赛作品</div>
+  <div class="title-main">多模态智能反诈对话系统</div>
+  <div class="title-sub">Anti-Fraud Intelligent Dialogue System</div>
+  <div class="title-icons">🛡️ 🤖 🔍 🔐</div>
+  <div class="title-bottom">基于 AI 的 7×24 小时全民反诈助手</div>
+</div>
+
+<!-- Slide 2: Background -->
+<div class="slide slide-feature" id="slide2">
+  <div class="feature-icon">📊</div>
+  <div class="feature-title">项目背景</div>
+  <div class="feature-desc">
+    2024年，全国破获电信网络诈骗案件 <b style="color:#d93025">46.4万起</b>，同比上升5.4%<br>
+    诈骗手法从传统话术升级为 <b style="color:#d93025">AI换脸、深度伪造</b> 等高科技手段<br>
+    现有反诈手段以被动拦截为主，缺乏 <b style="color:#1a73e8">7×24小时主动对话式劝阻</b> 能力
+  </div>
+</div>
+
+<!-- Slide 3: Architecture -->
+<div class="slide slide-arch" id="slide3">
+  <div class="arch-title">🏗️ 系统架构</div>
+  <div class="arch-layers">
+    <div class="arch-layer"><div class="layer-name">接入层</div><div class="layer-items">Web前端 · Nginx反向代理 · RESTful API · JWT认证</div></div>
+    <div class="arch-layer"><div class="layer-name">业务层</div><div class="layer-items">对话管理 · 用户管理 · 管理后台 · 审计日志</div></div>
+    <div class="arch-layer"><div class="layer-name">引擎层 (8大引擎)</div><div class="layer-items">意图识别 · 风险分析 · 知识检索 · 隐私卫士 · URL分析 · LLM客户端 · 知识图谱 · 游戏化引擎</div></div>
+    <div class="arch-layer"><div class="layer-name">数据层</div><div class="layer-items">SQLite/SQLAlchemy · JSON知识库 · 加密存储 · 审计日志轮转</div></div>
+  </div>
+  <div class="code-block">技术栈：Flask 3.0 + SQLAlchemy + AES-256-GCM + DeepSeek/Qwen + Docker</div>
+</div>
+
+<!-- Slide 4: Chat Demo - Greeting -->
+<div class="slide slide-chat" id="slide4">
+  <div class="chat-sidebar">
+    <div class="sidebar-logo">🛡️ 反诈卫士</div>
+    <div class="sidebar-item active">💬 智能对话</div>
+    <div class="sidebar-item">📚 知识学习</div>
+    <div class="sidebar-item">🎮 情景闯关</div>
+    <div class="sidebar-item">📜 历史对话</div>
+    <div class="sidebar-item">🏆 我的成就</div>
+  </div>
+  <div class="chat-main">
+    <div class="chat-header">🤖 反诈卫士 · AI智能助手</div>
+    <div class="chat-messages" id="chatMsgs4"></div>
+    <div class="chat-input-area">
+      <input class="chat-input" placeholder="描述你遇到的情况，我来帮你分析..." readonly>
+      <button class="chat-send">发送</button>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 5: Chat Demo - Fraud Detection -->
+<div class="slide slide-chat" id="slide5">
+  <div class="chat-sidebar">
+    <div class="sidebar-logo">🛡️ 反诈卫士</div>
+    <div class="sidebar-item active">💬 智能对话</div>
+    <div class="sidebar-item">📚 知识学习</div>
+    <div class="sidebar-item">🎮 情景闯关</div>
+  </div>
+  <div class="chat-main">
+    <div class="chat-header">🤖 反诈卫士 · AI智能助手</div>
+    <div class="chat-messages" id="chatMsgs5"></div>
+    <div class="chat-input-area">
+      <input class="chat-input" value="有个人加我微信说带我刷单赚钱..." readonly>
+      <button class="chat-send">发送</button>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 6: Chat Demo - Risk Alert -->
+<div class="slide slide-chat" id="slide6">
+  <div class="chat-sidebar">
+    <div class="sidebar-logo">🛡️ 反诈卫士</div>
+    <div class="sidebar-item active">💬 智能对话</div>
+    <div class="sidebar-item">📚 知识学习</div>
+    <div class="sidebar-item">🎮 情景闯关</div>
+  </div>
+  <div class="chat-main">
+    <div class="chat-header">🤖 反诈卫士 · AI智能助手  <span class="risk-badge risk-critical">⚠ 高风险</span></div>
+    <div class="chat-messages" id="chatMsgs6"></div>
+    <div class="chat-input-area">
+      <input class="chat-input" value="我已经转了3000块..." readonly>
+      <button class="chat-send">发送</button>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 7: Privacy Feature -->
+<div class="slide slide-feature" id="slide7">
+  <div class="feature-icon">🔐</div>
+  <div class="feature-title">零信任隐私保护</div>
+  <div class="feature-desc">
+    独创 <b>"对话即加密"</b> 隐私保护模式<br><br>
+    <div style="text-align:left; display:inline-block;">
+      🟢 7大类PII实时检测：手机号 · 身份证 · 银行卡 · 验证码 · 姓名 · 密码 · 地址<br>
+      🟢 每会话独立密钥，AES加密后<span class="privacy-tag">后台也无法查看</span><br>
+      🟢 会话关闭自动清除，数据库泄露<span class="privacy-tag">也无法解密</span><br>
+      🟢 差异化告警：验证码=<b style="color:#d93025">最高级</b>，地址=普通级
+    </div>
+  </div>
+</div>
+
+<!-- Slide 8: Risk Analysis Engine -->
+<div class="slide slide-feature" id="slide8" style="background:#f8f9fa;">
+  <div class="feature-icon">🎯</div>
+  <div class="feature-title">多维风险研判引擎</div>
+  <div class="feature-grid">
+    <div class="feature-card"><div class="icon">🔍</div><div class="title">13类风险规则</div><div class="desc">转账/验证码/链接/屏幕共享/冒充公检法等</div></div>
+    <div class="feature-card"><div class="icon">📊</div><div class="title">4级风险评分</div><div class="desc">紧急/高/中/低 + 时序衰减分析</div></div>
+    <div class="feature-card"><div class="icon">💬</div><div class="title">场景化劝阻</div><div class="desc">4等级×10+场景个性化劝阻话术</div></div>
+    <div class="feature-card"><div class="icon">🧠</div><div class="title">14种意图识别</div><div class="desc">多轮上下文追踪+同义词扩展</div></div>
+    <div class="feature-card"><div class="icon">📚</div><div class="title">TF-IDF语义搜索</div><div class="desc">9种诈骗类型+28个真实案例</div></div>
+    <div class="feature-card"><div class="icon">🕸️</div><div class="title">诈骗知识图谱</div><div class="desc">7种关系类型关联推理</div></div>
+  </div>
+</div>
+
+<!-- Slide 9: Gamification -->
+<div class="slide slide-feature" id="slide9" style="background: linear-gradient(135deg, #1a1a2e, #16213e); color: white;">
+  <div class="feature-icon">🏆</div>
+  <div class="feature-title" style="color: white;">游戏化激励机制</div>
+  <div class="feature-desc" style="color: #aaa;">通过积分、等级、勋章、任务提升用户反诈学习积极性</div>
+  <div class="feature-grid">
+    <div class="feature-card" style="background: rgba(255,255,255,0.06);">
+      <div class="icon">⭐</div><div class="title" style="color: white;">12种勋章</div><div class="desc">初识反诈→反诈卫士→反诈状元</div>
+    </div>
+    <div class="feature-card" style="background: rgba(255,255,255,0.06);">
+      <div class="icon">📈</div><div class="title" style="color: white;">6级段位</div><div class="desc">青铜→白银→黄金→铂金→钻石→王者</div>
+    </div>
+    <div class="feature-card" style="background: rgba(255,255,255,0.06);">
+      <div class="icon">📋</div><div class="title" style="color: white;">每日任务</div><div class="desc">对话/学习/模拟/举报，0点自动重置</div>
+    </div>
+    <div class="feature-card" style="background: rgba(255,255,255,0.06);">
+      <div class="icon">🔥</div><div class="title" style="color: white;">连续签到</div><div class="desc">每日签到领积分，连续签到额外奖励</div>
+    </div>
+    <div class="feature-card" style="background: rgba(255,255,255,0.06);">
+      <div class="icon">👑</div><div class="title" style="color: white;">排行榜</div><div class="desc">周榜/月榜，激发竞争意识</div>
+    </div>
+    <div class="feature-card" style="background: rgba(255,255,255,0.06);">
+      <div class="icon">🎮</div><div class="title" style="color: white;">情景模拟</div><div class="desc">5种场景交互式防骗训练</div>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 10: LLM Integration -->
+<div class="slide slide-feature" id="slide10">
+  <div class="feature-icon">🤖</div>
+  <div class="feature-title">LLM增强 + 优雅降级</div>
+  <div class="feature-desc">
+    支持 <b>DeepSeek · OpenAI · Qwen</b> 三种大模型<br>
+    LLM可用时 → 增强风险分析 + 人性化回复润色<br>
+    LLM不可用时 → <span style="color:#1e8e3e; font-weight:600;">自动降级到规则引擎，核心功能100%可用</span><br><br>
+    紧急场景（用户正在转账）→ 规则引擎<b>毫秒级响应</b>，不依赖LLM
+  </div>
+</div>
+
+<!-- Slide 11: Deploy -->
+<div class="slide slide-feature" id="slide11" style="background: #f8f9fa;">
+  <div class="feature-icon">🐳</div>
+  <div class="feature-title">一键部署 & 安全防护</div>
+  <div class="feature-desc">
+    <div style="text-align:left; display:inline-block;">
+      🐳 Docker Compose 一键部署，30秒启动<br>
+      🔒 AES-256-GCM 数据加密存储<br>
+      🔑 JWT 认证 + 速率限制(30次/分钟)<br>
+      🛡️ CSP安全响应头 + SQL注入防护<br>
+      📋 完整审计日志 + 日志轮转<br>
+      ⚖️ 支持GDPR合规配置<br>
+    </div>
+  </div>
+</div>
+
+<!-- Slide 12: Summary + Outro -->
+<div class="slide slide-outro" id="slide12">
+  <div class="outro-thanks">感谢观看</div>
+  <div class="outro-sub">多模态智能反诈对话系统</div>
+  <div style="margin-top:50px; color:#8ab4f8; font-size:16px;">
+    5大创新点：零信任隐私 · 混合智能引擎 · 多维风险研判 · 游戏化教育 · 知识图谱
+  </div>
+  <div style="margin-top:20px; color:#8ab4f8; font-size:16px;">
+    15个核心模块 · 7100+行代码 · 完整前后端实现
+  </div>
+  <div class="outro-contact">RAICOM 睿抗机器人开发者大赛 · 2026</div>
+</div>
+
+<script>
+// Auto-advance slides
+const totalSlides = 12;
+const slideDuration = 7000; // 7 seconds per slide
+let currentSlide = 1;
+
+function showSlide(n) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  const slide = document.getElementById('slide' + n);
+  if (slide) {
+    slide.classList.add('active');
+    currentSlide = n;
+    window.currentSlide = n;  // 暴露给Playwright
+    document.getElementById('progress').style.width = (n / totalSlides * 100) + '%';
+    document.getElementById('stepIndicator').textContent = n + '/' + totalSlides;
+  }
+}
+
+// Chat messages data
+const chatData = {
+  4: [
+    {type:'bot', text:'👋 你好！我是<strong>反诈卫士</strong>——你的AI反诈助手！<br><br>我可以帮你：<br>1️⃣ <strong>🔍 识别骗局</strong> - 告诉我你遇到的情况<br>2️⃣ <strong>📚 学习知识</strong> - 了解各类诈骗手法<br>3️⃣ <strong>🎮 情景闯关</strong> - 互动模拟防骗训练<br>4️⃣ <strong>📢 举报中心</strong> - 可疑链接一键分析'},
+    {type:'user', text:'你好，我想了解一下常见的诈骗类型'},
+    {type:'bot', text:'目前常见的诈骗类型包括：<br>🔴 <strong>刷单返利</strong> - 先给甜头再卷款跑路<br>🔴 <strong>冒充公检法</strong> - 假警察要求"安全账户"<br>🔴 <strong>虚假投资/杀猪盘</strong> - 网恋诱导投资<br>🔴 <strong>冒充客服退款</strong> - 快递丢失双倍赔偿<br>🔴 <strong>虚假征信</strong> - 注销校园贷记录<br><br>📌 记住：<b>所有刷单都是诈骗！公检法不会电话办案！</b>'},
+  ],
+  5: [
+    {type:'user', text:'有个人加我微信说带我刷单赚钱，一单返利30%，靠谱吗？'},
+    {type:'bot', text:'🔴 <strong>高风险提醒！这是典型的刷单诈骗！</strong><br><br>【识别要点】<br>• 任何要求先<strong>垫付资金</strong>的兼职都是诈骗<br>• "小额返利"是诱饵，"连单"是陷阱<br>• 群里除了你，其他全是<strong>托</strong><br><br>⚠️ <strong>立即停止所有操作！</strong>不要相信"再转一笔就能提现"！<br><br>📞 如有疑问请拨打 <strong>96110</strong> 反诈专线'},
+    {type:'user', text:'好的谢谢，我不理他了'},
+    {type:'bot', text:'👍 您做得非常正确！保持警惕，遇到可疑情况随时找我。<br><br>💡 建议您也提醒身边的家人朋友，特别是<strong>学生和老年人</strong>群体最容易被刷单诈骗盯上。'},
+  ],
+  6: [
+    {type:'user', text:'不好了！我刚才被冒充警察的骗子骗了，已经转了3000块...'},
+    {type:'bot', text:'🚨 <strong>紧急风险警告！</strong><br><br>检测到资金转出风险！请立即采取以下行动：<br><br><strong>⚡ 立即行动：</strong><br>1️⃣ 拨打 <strong>110</strong> 报警<br>2️⃣ 拨打 <strong>96110</strong> 反诈专线<br>3️⃣ 联系银行客服，尝试<strong>冻结对方账户</strong><br>4️⃣ 保存所有聊天记录和转账凭证<br><br>⏰ 黄金止付时间为转账后<strong>30分钟内</strong>，请立即行动！'},
+  ]
+};
+
+function fillChat(slideNum) {
+  const container = document.getElementById('chatMsgs' + slideNum);
+  if (!container) return;
+  const msgs = chatData[slideNum] || [];
+  container.innerHTML = '';
+  msgs.forEach((msg, i) => {
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + msg.type;
+    div.style.animationDelay = (i * 0.8) + 's';
+    div.innerHTML = msg.text;
+    container.appendChild(div);
+  });
+}
+
+// Initialize
+showSlide(1);
+let slideTimer;
+
+function startDemo() {
+  slideTimer = setInterval(() => {
+    if (currentSlide >= totalSlides) {
+      clearInterval(slideTimer);
+      return;
+    }
+    const next = currentSlide + 1;
+    showSlide(next);
+    if (chatData[next]) fillChat(next);
+  }, slideDuration);
+}
+
+// Pre-fill chat slides content when first shown
+const origShow = showSlide;
+showSlide = function(n) {
+  origShow(n);
+  if (chatData[n]) fillChat(n);
+};
+
+startDemo();
+</script>
+</body>
+</html>

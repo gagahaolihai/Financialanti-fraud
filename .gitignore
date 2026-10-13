@@ -1,0 +1,50 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment
+.env
+.venv/
+venv/
+env/
+
+# Data
+data/*.json
+data/*.db
+!data/.gitkeep
+
+# Logs
+logs/
+*.log
+
+# 本地语义模型（470MB，超出 GitHub 单文件限制，改由脚本下载）
+# 重新下载：
+#   huggingface-cli download sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2 --local-dir models/paraphrase-multilingual-MiniLM-L12-v2
+models/
+
+# 本地调试转储
+_debug_resp.json
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker/
+
+# Test & Coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Build
+dist/
+build/
+*.egg-info/

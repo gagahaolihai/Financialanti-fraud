@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a73e8">
+  <meta name="description" content="反诈卫士 - AI驱动的多模态智能反诈对话系统">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <link rel="icon" href="{{ url_for('static', filename='icons/icon.svg') }}" type="image/svg+xml">
+  <title>反诈卫士 - 多模态智能反诈对话系统</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div id="app-data" data-user-id="{{ user_id }}"></div>
+
+  <!-- 暗色模式切换 -->
+  <button class="theme-toggle" id="theme-toggle" title="切换暗色模式" aria-label="切换暗色模式">🌙</button>
+
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar" aria-label="侧边栏">
+      <div class="sidebar-header">
+        <h1>🛡️ 反诈卫士</h1>
+        <div class="subtitle">多模态智能反诈对话系统 v3.0</div>
+        <div class="streak-display" id="streak-display" style="display:none; margin-top:8px;">
+          <span>🔥 连续签到 <strong id="streak-count">0</strong> 天</span>
+        </div>
+      </div>
+
+      <div class="user-info-sidebar">
+        <div class="user-avatar">U</div>
+        <div class="user-stats">
+          <span class="level-badge">Lv.1 反诈新手</span>
+          <div class="username">加载中...</div>
+        </div>
+      </div>
+
+      <div id="profile-area"></div>
+      <div id="daily-tasks-area" style="padding: 8px 16px;"></div>
+
+      <nav class="sidebar-nav" aria-label="主导航">
+        <button class="nav-item active" data-action="help">
+          <span class="icon">💬</span> 对话咨询
+        </button>
+        <button class="nav-item" data-action="scenario">
+          <span class="icon">🎮</span> 情景模拟
+          <span class="badge">NEW</span>
+        </button>
+        <button class="nav-item" data-action="knowledge">
+          <span class="icon">📚</span> 反诈知识
+        </button>
+        <button class="nav-item" data-action="report">
+          <span class="icon">📢</span> 举报中心
+        </button>
+        <button class="nav-item" data-action="leaderboard">
+          <span class="icon">🏆</span> 排行榜
+        </button>
+        <button class="nav-item" data-action="history">
+          <span class="icon">📜</span> 历史对话
+        </button>
+        <button class="nav-item" data-action="privacy">
+          <span class="icon">🔒</span> 隐私保护
+        </button>
+        <button class="nav-item" data-action="clear">
+          <span class="icon">🗑️</span> 清空对话
+        </button>
+
+        <div class="nav-section-title">⚡ v3.0 智能分析</div>
+        <button class="nav-item" data-action="smart-analyze">
+          <span class="icon">🧠</span> 语义深度分析
+          <span class="v3-badge">NEW</span>
+        </button>
+        <button class="nav-item" data-action="image-detect">
+          <span class="icon">🔍</span> 截图诈骗识别
+          <span class="v3-badge">NEW</span>
+        </button>
+        <button class="nav-item" data-action="audio-detect">
+          <span class="icon">🎤</span> 语音诈骗检测
+          <span class="v3-badge">NEW</span>
+        </button>
+      </nav>
+
+      <div style="padding: 12px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: auto;">
+        <div style="font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.6;">
+          <div id="privacy-status-sidebar" style="margin-bottom: 8px; display: none;">
+            <span style="display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; background: rgba(26,115,232,0.2); border-radius: 10px; color: #8ab4f8; font-size: 10px;">
+              🔒 隐私卫士
+            </span>
+            <span id="privacy-count" style="font-size: 10px; margin-left: 4px;">已保护 0 条</span>
+          </div>
+          <div id="badges-container" class="badges-row"></div>
+          <div style="margin-top: 8px;">
+            📞 <a href="tel:110" style="color: rgba(255,255,255,0.6);">110</a> 报警 |
+            <a href="tel:96110" style="color: rgba(255,255,255,0.6);">96110</a> 反诈
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar (Mobile) -->
+      <div class="top-bar">
+        <button class="menu-toggle" id="menu-toggle" aria-label="打开菜单">☰</button>
+        <span class="top-bar-title">🛡️ 反诈卫士</span>
+      </div>
+
+      <!-- Chat Area -->
+      <div class="chat-area">
+        <!-- v3.0 分析面板 -->
+        <div class="feature-panel" id="feature-panel" style="display:none;">
+          <h3><span id="feature-panel-icon">🧠</span> <span id="feature-panel-title">语义深度分析</span></h3>
+          <div id="feature-panel-body"></div>
+          <div class="feature-result" id="feature-result"></div>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+
+        <!-- Suggestion Chips -->
+        <div class="suggestion-area" id="suggestion-area"></div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+          <div class="input-wrapper">
+            <textarea id="user-input" placeholder="描述你遇到的情况，或输入反诈知识问题..." rows="1" aria-label="输入消息内容"></textarea>
+            <div class="input-actions">
+              <button class="btn-icon" id="voice-btn" title="语音输入" aria-label="语音输入">🎙️</button>
+              <button class="btn-icon send" id="send-btn" title="发送" aria-label="发送消息">➤</button>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-top: 6px; padding: 0 4px;">
+            <span style="font-size: 11px; color: var(--text-secondary);">按 Enter 发送</span>
+            <span style="font-size: 11px; color: var(--text-secondary);">⚡ 实时劝阻 · 一键举报</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scenario Modal -->
+  <div class="modal-overlay" role="dialog" aria-modal="true" id="scenario-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🎮 情景模拟训练</h2>
+        <button class="modal-close" aria-label="关闭">&times;</button>
+      </div>
+      <div id="scenario-list"></div>
+      <div id="scenario-scene" style="display: none;"></div>
+    </div>
+  </div>
+
+  <!-- Report Modal -->
+  <div class="modal-overlay" role="dialog" aria-modal="true" id="report-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📢 举报中心</h2>
+        <button class="modal-close" aria-label="关闭">&times;</button>
+      </div>
+      <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">
+        提交可疑链接或信息，系统将自动分析风险。也可通过官方渠道举报。
+      </p>
+      <div class="report-form">
+        <input type="url" id="report-url" placeholder="输入可疑链接 URL（必填）" aria-label="可疑链接 URL">
+        <textarea id="report-desc" placeholder="补充描述（可选）" rows="3" aria-label="补充描述"></textarea>
+        <button id="report-btn">🔍 分析链接</button>
+      </div>
+      <div id="report-result" style="margin-top: 12px;"></div>
+      <div id="report-history" style="margin-top: 12px;"></div>
+      <div style="margin-top: 16px; padding: 12px; background: var(--bg); border-radius: 8px; font-size: 13px;">
+        <strong>📞 官方举报渠道</strong><br>
+        • 报警电话: <a href="tel:110" style="color: var(--primary);">110</a><br>
+        • 反诈专线: <a href="tel:96110" style="color: var(--primary);">96110</a><br>
+        • 网络举报: 12321.cn<br>
+        • 国家反诈中心 APP
+      </div>
+    </div>
+  </div>
+
+  <!-- History Modal -->
+  <div class="modal-overlay" role="dialog" aria-modal="true" id="history-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📜 历史对话</h2>
+        <button class="modal-close" aria-label="关闭">&times;</button>
+      </div>
+      <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px;">
+        查看之前的对话记录（隐私信息已脱敏）
+      </div>
+      <div id="history-toolbar" style="display:flex; gap:8px; margin-bottom:12px;">
+        <button id="history-refresh-btn" style="padding:6px 14px; background:var(--primary); color:#fff; border:none; border-radius:16px; cursor:pointer; font-size:12px; font-family:inherit;">🔄 刷新</button>
+        <button id="history-load-latest-btn" style="padding:6px 14px; background:var(--bg); color:var(--text); border:1px solid var(--border); border-radius:16px; cursor:pointer; font-size:12px; font-family:inherit;">📥 加载最近对话</button>
+      </div>
+      <div id="history-list" style="max-height: 50vh; overflow-y: auto;">
+        <p style="color: var(--text-secondary); font-size: 14px;">加载中...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Knowledge Modal -->
+  <div class="modal-overlay" role="dialog" aria-modal="true" id="knowledge-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>📚 反诈知识库</h2>
+        <button class="modal-close" aria-label="关闭">&times;</button>
+      </div>
+      <div id="knowledge-content"></div>
+    </div>
+  </div>
+
+  <!-- Leaderboard Modal -->
+  <div class="modal-overlay" role="dialog" aria-modal="true" id="leaderboard-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🏆 反诈排行榜</h2>
+        <button class="modal-close" aria-label="关闭">&times;</button>
+      </div>
+      <div id="leaderboard-content">
+        <p style="color: var(--text-secondary); font-size: 14px;">加载中...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 注册 Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/static/sw.js').catch(() => {});
+      });
+    }
+  </script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
